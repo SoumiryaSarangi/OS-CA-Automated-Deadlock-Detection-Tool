@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "processes": [
+    { "pid": 0, "name": "Reader 1" },
+    { "pid": 1, "name": "Writer 1" },
+    { "pid": 2, "name": "Reader 2" }
+  ],
+  "resource_types": [
+    { "rid": 0, "name": "File Lock", "instances": 1 },
+    { "rid": 1, "name": "Buffer", "instances": 2 }
+  ],
+  "available": [0, 0],
+  "allocation": [
+    [0, 1],
+    [1, 1],
+    [0, 0]
+  ],
+  "request": [
+    [1, 1],
+    [0, 1],
+    [1, 2]
+  ]
+}

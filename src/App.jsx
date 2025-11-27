@@ -1,0 +1,129 @@
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { createEmptySystemState } from './types/models';
+import { detectDeadlockWFG } from './algorithms/wfg';
+import { detectDeadlockMatrix } from './algorithms/matrix';
+import { generateRecoverySuggestions } from './algorithms/recovery';
+import InputTab from './components/InputTab';
+import VisualizationTab from './components/VisualizationTab';
+import ResultsTab from './components/ResultsTab';
+import Header from './components/Header';
+import './App.css';
+
+function App() {
+  const [currentTab, setCurrentTab] = useState('input');
+  const [systemState, setSystemState] = useState(createEmptySystemState());
+  const [detectionResult, setDetectionResult] = useState(null);
+  
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    // Animate page load
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // Animate tab transitions
+    if (mainRef.current) {
+      gsap.fromTo(
+        mainRef.current.querySelector('.tab-content'),
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }
+      );
+    }
+  }, [currentTab]);
+
+  const handleAnalyze = () => {
+    try {
+      // Automatically select the appropriate algorithm based on resource instances
+      const allSingleInstance = systemState.resource_types.every(r => r.instances === 1);
+      const selectedAlgorithm = allSingleInstance ? 'wfg' : 'matrix';
+
+      let result;
+      if (selectedAlgorithm === 'wfg') {
+        result = detectDeadlockWFG(systemState);
+      } else {
+        result = detectDeadlockMatrix(systemState);
+      }
+
+      const recovery = result.deadlocked
+        ? generateRecoverySuggestions(systemState, result.deadlocked_processes)
+        : null;
+
+      setDetectionResult({
+        ...result,
+        recovery,
+        algorithm: selectedAlgorithm,
+      });
+
+      setCurrentTab('results');
+    } catch (error) {
+      alert(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setCurrentTab(tab);
+  };
+
+  return (
+    <div className="app">
+      <Header />
+      
+      <nav className="nav-tabs">
+        <button
+          className={`nav-tab ${currentTab === 'input' ? 'active' : ''}`}
+          onClick={() => handleTabChange('input')}
+        >
+          <span className="tab-icon">📝</span>
+          Input
+        </button>
+        <button
+          className={`nav-tab ${currentTab === 'visualization' ? 'active' : ''}`}
+          onClick={() => handleTabChange('visualization')}
+          disabled={!detectionResult}
+        >
+          <span className="tab-icon">📊</span>
+          Visualization
+        </button>
+        <button
+          className={`nav-tab ${currentTab === 'results' ? 'active' : ''}`}
+          onClick={() => handleTabChange('results')}
+          disabled={!detectionResult}
+        >
+          <span className="tab-icon">📋</span>
+          Results
+        </button>
+      </nav>
+
+      <main ref={mainRef} className="main-content">
+        <div className="tab-content">
+          {currentTab === 'input' && (
+            <InputTab
+              systemState={systemState}
+              setSystemState={setSystemState}
+              onAnalyze={handleAnalyze}
+            />
+          )}
+          {currentTab === 'visualization' && detectionResult && (
+            <VisualizationTab
+              systemState={systemState}
+              detectionResult={detectionResult}
+            />
+          )}
+          {currentTab === 'results' && detectionResult && (
+            <ResultsTab detectionResult={detectionResult} />
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default App;

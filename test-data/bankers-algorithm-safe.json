@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "processes": [
+    { "pid": 0, "name": "P0" },
+    { "pid": 1, "name": "P1" },
+    { "pid": 2, "name": "P2" },
+    { "pid": 3, "name": "P3" },
+    { "pid": 4, "name": "P4" }
+  ],
+  "resource_types": [
+    { "rid": 0, "name": "Resource A", "instances": 10 },
+    { "rid": 1, "name": "Resource B", "instances": 5 },
+    { "rid": 2, "name": "Resource C", "instances": 7 }
+  ],
+  "available": [3, 3, 2],
+  "allocation": [
+    [0, 1, 0],
+    [2, 0, 0],
+    [3, 0, 2],
+    [2, 1, 1],
+    [0, 0, 2]
+  ],
+  "request": [
+    [7, 4, 3],
+    [1, 2, 2],
+    [0, 0, 0],
+    [0, 1, 1],
+    [4, 3, 1]
+  ]
+}
