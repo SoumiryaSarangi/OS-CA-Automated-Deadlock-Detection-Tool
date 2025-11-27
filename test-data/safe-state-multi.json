@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "processes": [
+    { "pid": 0, "name": "Web Server" },
+    { "pid": 1, "name": "Database" },
+    { "pid": 2, "name": "Cache Service" }
+  ],
+  "resource_types": [
+    { "rid": 0, "name": "CPU", "instances": 4 },
+    { "rid": 1, "name": "Memory", "instances": 8 },
+    { "rid": 2, "name": "Disk", "instances": 3 }
+  ],
+  "available": [1, 2, 1],
+  "allocation": [
+    [1, 2, 0],
+    [1, 3, 1],
+    [1, 1, 1]
+  ],
+  "request": [
+    [0, 1, 1],
+    [1, 0, 1],
+    [0, 1, 0]
+  ]
+}

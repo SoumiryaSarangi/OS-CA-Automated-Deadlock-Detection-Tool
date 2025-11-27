@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "processes": [
+    { "pid": 0, "name": "Process 0" }
+  ],
+  "resource_types": [
+    { "rid": 0, "name": "Resource", "instances": 2 }
+  ],
+  "available": [2],
+  "allocation": [
+    [0]
+  ],
+  "request": [
+    [1]
+  ]
+}
