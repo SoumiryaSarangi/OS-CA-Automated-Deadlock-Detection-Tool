@@ -1,380 +1,248 @@
-# 🚀 Quick Start Guide - Deadlock Detective React
+# 🚀 Quick Start Guide - Deadlock Detective
 
-## Get Up and Running in 5 Minutes
-
-This guide will help you set up and run the Deadlock Detective React application quickly.
+Get up and running with Deadlock Detective in under 5 minutes!
 
 ---
 
-## Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Node.js** (version 18 or higher)
-  - Download from: https://nodejs.org/
-  - Verify installation: `node --version`
-
-- **npm** (comes with Node.js)
-  - Verify installation: `npm --version`
-
-- A **modern web browser** (Chrome, Firefox, Edge, or Safari)
-
----
-
-## Installation Steps
-
-### 1. Navigate to the Project Directory
-
-Open a terminal/command prompt and navigate to the project folder:
+## ⚡ Super Quick Start
 
 ```bash
-cd "c:\Users\ss\OneDrive\Desktop\OS project\deadlock-detective-react"
-```
+# 1. Clone the repository
+git clone https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool.git
 
-### 2. Install Dependencies
+# 2. Navigate to directory
+cd OS-CA-Automated-Deadlock-Detection-Tool
 
-Install all required packages:
-
-```bash
+# 3. Install dependencies
 npm install
-```
 
-This will install:
-- React 18
-- TypeScript 5
-- Vite
-- GSAP (animation library)
-- D3.js (visualization library)
-- And other dependencies
-
-**Expected time:** 30-60 seconds
-
-### 3. Start the Development Server
-
-Run the application in development mode:
-
-```bash
+# 4. Start the app
 npm run dev
 ```
 
-You should see output similar to:
-
-```
-  VITE v7.2.4  ready in 481 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
-```
-
-### 4. Open in Browser
-
-Open your web browser and navigate to:
-
-```
-http://localhost:5173
-```
-
-🎉 **You're ready to use Deadlock Detective!**
+Open [http://localhost:5173](http://localhost:5173) in your browser. Done! 🎉
 
 ---
 
-## First Steps - Try It Out!
+## 📋 Prerequisites
 
-### Quick Tutorial (2 minutes)
+Before you begin, ensure you have:
 
-1. **Load a Sample**
-   - Click "Circular Deadlock" button
-   - Tables will fill with data automatically
+- ✅ **Node.js** 18 or higher ([Download](https://nodejs.org/))
+- ✅ **npm** (comes with Node.js)
+- ✅ Modern web browser (Chrome, Firefox, Edge, or Safari)
+- ✅ Internet connection (for initial setup)
 
-2. **Analyze**
-   - Click the blue "🔍 Analyze for Deadlock" button
-   - You'll see results immediately
-
-3. **View Visualization**
-   - Click the "Visualization" tab
-   - See the interactive graph
-
-4. **Check Results**
-   - Click the "Results" tab
-   - Read the detection trace
-   - See recovery strategies
-
----
-
-## Project Scripts
-
-### Development
+### Check Your Installation
 
 ```bash
-npm run dev        # Start development server (with hot reload)
-```
+# Check Node.js version (should be 18+)
+node --version
 
-### Production Build
-
-```bash
-npm run build      # Build optimized production version
-npm run preview    # Preview the production build locally
-```
-
-### Linting
-
-```bash
-npm run lint       # Check code for errors
+# Check npm version
+npm --version
 ```
 
 ---
 
-## Project Structure
+## 🎮 Your First Deadlock Detection
+
+### Step 1: Load a Sample
+
+1. Open the app in your browser
+2. You'll see the **Input Tab** by default
+3. Click the **"Circular Deadlock"** button under "Load Sample Dataset"
+4. Tables will auto-populate with data
+
+### Step 2: Analyze
+
+1. Click the big **"🔍 Analyze for Deadlock"** button
+2. The app automatically:
+   - Selects the right algorithm
+   - Runs detection
+   - Switches to Results tab
+
+### Step 3: View Results
+
+You'll see:
+- 🚨 **Status Banner**: "Deadlock Detected"
+- 📊 **Detection Trace**: Step-by-step analysis
+- 💡 **Recovery Strategies**: How to fix it
+
+### Step 4: Visualize
+
+1. Click the **"Visualization"** tab
+2. See the interactive graph:
+   - **Red circles** = Deadlocked processes
+   - **Purple circles** = Resources
+   - **Yellow dashed arrows** = Requests
+   - **Green solid arrows** = Allocations
+
+---
+
+## 📊 Understanding the Sample Datasets
+
+### 1. Circular Deadlock (Classic) 🔴
+
+**What it is:** 3 processes in a circular wait pattern
 
 ```
-deadlock-detective-react/
-│
-├── src/                    # Source code
-│   ├── algorithms/         # Detection algorithms
-│   ├── components/         # React UI components
-│   ├── types/             # TypeScript types
-│   ├── utils/             # Utility functions
-│   ├── App.tsx            # Main app component
-│   └── main.tsx           # Entry point
-│
-├── public/                # Static assets
-├── package.json           # Dependencies
-├── vite.config.ts         # Vite configuration
-├── tsconfig.json          # TypeScript configuration
-│
-└── Documentation/
-    ├── README.md          # Main documentation
-    ├── USER_GUIDE.md      # Comprehensive user guide
-    └── DEVELOPER_GUIDE.md # Technical documentation
+P0 → P1 → P2 → P0 (cycle!)
+```
+
+**Result:** DEADLOCK detected  
+**Learn:** Classic deadlock scenario
+
+### 2. Safe State 🟢
+
+**What it is:** System with enough resources for all processes
+
+**Result:** NO DEADLOCK  
+**Learn:** What a safe execution sequence looks like
+
+### 3. Multi-Instance Deadlock 🔴
+
+**What it is:** Deadlock with resources having multiple instances
+
+**Result:** DEADLOCK detected  
+**Learn:** Matrix algorithm in action
+
+### 4. Partial Deadlock 🟡
+
+**What it is:** Some processes deadlocked, others safe
+
+**Result:** PARTIAL DEADLOCK  
+**Learn:** Not all processes must be deadlocked
+
+### 5. Complex Safe State 🟢
+
+**What it is:** 5 processes, complex but safe
+
+**Result:** NO DEADLOCK  
+**Learn:** Safe sequence with multiple processes
+
+---
+
+## 🎯 Try These Next
+
+### Experiment 1: Break the Deadlock
+
+1. Load "Circular Deadlock"
+2. In **Allocation Matrix**, change P0's R0 from 1 to 0
+3. Click "Analyze for Deadlock"
+4. **Result**: No more deadlock!
+
+### Experiment 2: Create a Deadlock
+
+1. Load "Safe State"
+2. In **Request Matrix**, increase some requests
+3. Click "Analyze for Deadlock"
+4. See if you created a deadlock!
+
+### Experiment 3: Export & Import
+
+1. Load any sample
+2. Click **"Export JSON"** button
+3. Modify the downloaded file
+4. Click **"Import JSON"** to load it back
+
+---
+
+## 🛠️ Common Commands
+
+```bash
+# Start development server (with hot reload)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run linter
+npm run lint
 ```
 
 ---
 
-## Common Issues & Solutions
+## 🐛 Quick Troubleshooting
 
-### Port Already in Use
-
-**Problem:** Port 5173 is already being used by another application
+### Problem: `npm install` hangs
 
 **Solution:**
 ```bash
-# Kill the process using port 5173 (Windows)
-netstat -ano | findstr :5173
-taskkill /PID <PID_NUMBER> /F
-
-# Or use a different port
-npm run dev -- --port 3000
-```
-
-### Module Not Found Errors
-
-**Problem:** Cannot find module '@gsap/react' or similar
-
-**Solution:**
-```bash
-# Delete node_modules and reinstall
-rm -rf node_modules package-lock.json
+npm cache clean --force
 npm install
 ```
 
-### TypeScript Errors
-
-**Problem:** TypeScript compilation errors
+### Problem: Port 5173 is already in use
 
 **Solution:**
 ```bash
-# Check tsconfig.json is present
-# Try rebuilding
-npm run build
+# Windows
+netstat -ano | findstr :5173
+taskkill /PID <PID> /F
+
+# Or change port in vite.config.js
 ```
 
----
+### Problem: Nothing shows in Visualization tab
 
-## What's Included
+**Solution:**
+- You must run "Analyze for Deadlock" first!
+- Detection must complete before visualization works
 
-### Features Available Out of the Box
+### Problem: JSON import fails
 
-✅ **5 Sample Datasets**
-- Circular Deadlock
-- Safe State
-- Multi-Instance Deadlock
-- Partial Deadlock
-- Complex Safe State
-
-✅ **2 Detection Algorithms**
-- Matrix-Based (Banker's Algorithm)
-- Wait-For Graph (Cycle Detection)
-
-✅ **Interactive Visualization**
-- D3.js powered graphs
-- GSAP smooth animations
-- Color-coded nodes and edges
-
-✅ **Recovery Strategies**
-- Process termination suggestions
-- Resource preemption suggestions
-- Detailed explanations
-
-✅ **Data Management**
-- Import/Export JSON
-- Editable tables
-- Real-time validation
+**Solution:**
+- Check JSON format matches examples in `test-data/` folder
+- Ensure all required fields are present
+- Validate JSON syntax online
 
 ---
 
-## Next Steps
+## 📱 Browser Compatibility
 
-### Learn More
-
-1. **Read the User Guide** - `USER_GUIDE.md`
-   - Understand deadlocks
-   - Learn how to use each feature
-   - See detailed examples
-
-2. **Read the Developer Guide** - `DEVELOPER_GUIDE.md`
-   - Understand the codebase
-   - Learn algorithm details
-   - Contribute to the project
-
-3. **Try All Samples**
-   - Load each sample dataset
-   - Compare different scenarios
-   - Understand when deadlock occurs
-
-### Customize
-
-1. **Modify Sample Data**
-   - Load a sample
-   - Edit allocation/request matrices
-   - See how results change
-
-2. **Create Your Own Scenarios**
-   - Start from a sample
-   - Adjust numbers
-   - Test your understanding
-
-3. **Export and Share**
-   - Export your configuration as JSON
-   - Share with classmates
-   - Compare results
+| Browser | Minimum Version | Status |
+|---------|----------------|--------|
+| Chrome | 90+ | ✅ Fully supported |
+| Firefox | 88+ | ✅ Fully supported |
+| Edge | 90+ | ✅ Fully supported |
+| Safari | 14+ | ✅ Fully supported |
 
 ---
 
-## Getting Help
+## 🎓 Next Steps
 
-### Documentation
+Now that you're set up:
 
-- **README.md** - Overview and features
-- **USER_GUIDE.md** - Detailed usage instructions
-- **DEVELOPER_GUIDE.md** - Technical details
-
-### Troubleshooting
-
-If you encounter issues:
-
-1. Check the console for error messages (F12 in browser)
-2. Verify all dependencies are installed (`npm install`)
-3. Check Node.js version (`node --version` should be 18+)
-4. Try clearing the browser cache
-5. Restart the development server
+1. **Read the User Guide**: See [USER_GUIDE.md](USER_GUIDE.md) for detailed usage
+2. **Try All Samples**: Understand different deadlock scenarios
+3. **Read Algorithm Docs**: Learn how detection works
+4. **Experiment**: Create your own scenarios
 
 ---
 
-## System Requirements
+## 💡 Pro Tips
 
-### Minimum Requirements
-
-- **OS:** Windows 10/11, macOS 10.15+, or Linux
-- **RAM:** 4 GB
-- **Disk Space:** 500 MB for project + dependencies
-- **Node.js:** Version 18.0 or higher
-- **Browser:** Chrome 90+, Firefox 88+, Edge 90+, Safari 14+
-
-### Recommended Requirements
-
-- **RAM:** 8 GB or more
-- **Node.js:** Version 20.0 or higher
-- **Browser:** Latest version of Chrome or Firefox
+- 🔥 **Hot Reload**: Changes to code auto-refresh browser
+- 🎨 **DevTools**: Press F12 to see console logs
+- 💾 **Save Often**: Export JSON to save your work
+- 📖 **Read Traces**: Understanding traces helps you learn algorithms
 
 ---
 
-## Performance Tips
+## 📞 Need Help?
 
-### For Smooth Experience
-
-1. **Close Unnecessary Browser Tabs**
-   - Frees up memory for animations
-
-2. **Use Latest Browser Version**
-   - Better performance and compatibility
-
-3. **Run on Development Server**
-   - Don't use production build for development
-
-4. **Limit System Complexity**
-   - Keep processes and resources < 10 for best visualization
+- **Full User Guide**: [USER_GUIDE.md](USER_GUIDE.md)
+- **Technical Docs**: [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
+- **GitHub Issues**: [Report a bug](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool/issues)
 
 ---
 
-## Keyboard Shortcuts
+## 🎉 You're Ready!
 
-While using the application:
+You now have a working Deadlock Detective installation. Start exploring and learning about deadlock detection!
 
-- **F12** - Open browser developer console (for debugging)
-- **Ctrl+R** / **Cmd+R** - Refresh page
-- **Ctrl+Shift+C** / **Cmd+Shift+C** - Inspect element
-
----
-
-## What You Can Do
-
-### Educational Use
-
-✅ Learn deadlock detection algorithms  
-✅ Visualize process and resource relationships  
-✅ Understand recovery strategies  
-✅ Practice with pre-made scenarios  
-✅ Create custom test cases
-
-### Academic Use
-
-✅ Complete OS assignments  
-✅ Prepare for exams  
-✅ Demonstrate concepts in presentations  
-✅ Research deadlock patterns  
-✅ Compare algorithm efficiency
-
----
-
-## License & Credits
-
-**License:** MIT License
-
-**Built With:**
-- React + TypeScript
-- Vite
-- D3.js
-- GSAP
-- CSS3
-
-**Based On:**
-- Standard OS textbook algorithms
-- Banker's Algorithm (Dijkstra, 1965)
-- Wait-For Graph approach
-
----
-
-## Support
-
-For questions, issues, or contributions:
-
-- Read the documentation files
-- Check the troubleshooting section
-- Review the code comments
-- Experiment with the tool
-
----
-
-**Happy Learning! 🎓**
-
-**Start Exploring:** Load a sample → Click Analyze → See the magic happen! ✨
+**Happy Learning! 🔍**

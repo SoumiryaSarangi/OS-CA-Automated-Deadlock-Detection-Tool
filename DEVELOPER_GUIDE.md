@@ -2,65 +2,157 @@
 
 ## Technical Documentation for Contributors and Developers
 
-This guide provides in-depth technical information about the Deadlock Detective codebase, architecture, and algorithms.
+This guide provides in-depth technical information about the Deadlock Detective codebase, architecture, algorithms, and development practices.
 
 ---
 
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
-2. [Core Data Models](#core-data-models)
-3. [Detection Algorithms](#detection-algorithms)
-4. [Recovery Strategies](#recovery-strategies)
-5. [Component Structure](#component-structure)
-6. [State Management](#state-management)
-7. [Animation System](#animation-system)
-8. [Testing](#testing)
-9. [Contributing](#contributing)
+2. [Technology Stack](#technology-stack)
+3. [Project Structure](#project-structure)
+4. [Core Data Models](#core-data-models)
+5. [Detection Algorithms](#detection-algorithms)
+6. [Recovery Algorithms](#recovery-algorithms)
+7. [Component Architecture](#component-architecture)
+8. [State Management](#state-management)
+9. [Visualization System](#visualization-system)
+10. [Performance](#performance)
+11. [Contributing](#contributing)
 
 ---
 
 ## Architecture Overview
 
-### Technology Stack
-
-**Frontend Framework:**
-- React 18 with functional components and hooks
-- TypeScript 5 for type safety
-- Vite for fast development and builds
-
-**Visualization:**
-- D3.js for SVG-based graph rendering
-- GSAP for smooth animations and transitions
-
-**Styling:**
-- Custom CSS with CSS variables
-- Dark theme with minimal design
-- Fully responsive layout
-
-### Project Structure
+### High-Level Design
 
 ```
-src/
-├── algorithms/       # Core detection and recovery logic
-│   ├── wfg.ts       # Wait-For Graph algorithm
-│   ├── matrix.ts    # Matrix-based detection
-│   └── recovery.ts  # Recovery strategy generation
+┌──────────────────────────────────────┐
+│         React Application            │
+│  (Single Page App - SPA Pattern)     │
+└──────────────────────────────────────┘
+           │
+           ├─── Components (UI Layer)
+           │    ├── Header
+           │    ├── InputTab
+           │    ├── VisualizationTab
+           │    └── ResultsTab
+           │
+           ├─── Algorithms (Logic Layer)
+           │    ├── matrix.js (Detection)
+           │    ├── wfg.js (Detection)
+           │    └── recovery.js (Strategy)
+           │
+           ├─── Types (Data Layer)
+           │    └── models.js
+           │
+           └─── Utils (Helper Layer)
+                └── samples.js
+```
+
+### Design Principles
+
+1. **Separation of Concerns**: UI, logic, and data are separate
+2. **Immutability**: State is never mutated directly
+3. **Component-Based**: Reusable, modular UI components
+4. **Algorithm Isolation**: Detection logic independent of UI
+5. **Type Safety**: JSDoc comments for type hints
+
+---
+
+## Technology Stack
+
+### Core Technologies
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 19.2.0 | UI framework |
+| **Vite** | 7.2.4 | Build tool & dev server |
+| **JavaScript (ES6+)** | Latest | Programming language |
+| **D3.js** | 7.9.0 | Graph visualization |
+| **GSAP** | 3.13.0 | Animations |
+| **CSS3** | Latest | Styling |
+
+### Development Tools
+
+- **ESLint** - Code linting
+- **npm** - Package management
+- **Git** - Version control
+
+### Why These Technologies?
+
+**React:**
+- Component-based architecture
+- Virtual DOM for performance
+- Large ecosystem and community
+- Easy to learn and use
+
+**Vite:**
+- Lightning-fast HMR (Hot Module Replacement)
+- Optimized builds with Rollup
+- Native ES modules support
+- Better DX than webpack
+
+**D3.js:**
+- Powerful data-driven visualizations
+- SVG manipulation
+- Large library of examples
+- Industry standard for graphs
+
+**GSAP:**
+- Smooth 60fps animations
+- Better performance than CSS
+- Timeline-based animations
+- Cross-browser compatibility
+
+---
+
+## Project Structure
+
+```
+OS-CA-Automated-Deadlock-Detection-Tool/
 │
-├── components/      # React UI components
-│   ├── Header.tsx   # App header
-│   ├── InputTab.tsx # Data entry interface
-│   ├── VisualizationTab.tsx  # D3 graph visualization
-│   └── ResultsTab.tsx        # Results display
+├── public/                 # Static assets
+│   └── vite.svg
 │
-├── types/          # TypeScript type definitions
-│   └── models.ts   # SystemState, Process, Resource types
+├── src/                   # Source code
+│   ├── algorithms/        # Core detection logic
+│   │   ├── matrix.js      # Matrix-based detection (multi-instance)
+│   │   ├── wfg.js         # Wait-For Graph (single-instance)
+│   │   └── recovery.js    # Recovery strategy generation
+│   │
+│   ├── components/        # React UI components
+│   │   ├── Header.jsx
+│   │   ├── Header.css
+│   │   ├── InputTab.jsx
+│   │   ├── InputTab.css
+│   │   ├── VisualizationTab.jsx
+│   │   ├── VisualizationTab.css
+│   │   ├── ResultsTab.jsx
+│   │   └── ResultsTab.css
+│   │
+│   ├── types/            # Data models and type definitions
+│   │   └── models.js      # SystemState, Process, Resource
+│   │
+│   ├── utils/            # Utility functions
+│   │   └── samples.js     # Sample datasets, JSON I/O
+│   │
+│   ├── App.jsx           # Main application component
+│   ├── App.css           # Global app styles
+│   ├── main.jsx          # Entry point
+│   └── index.css         # Global CSS variables
 │
-├── utils/          # Utility functions
-│   └── samples.ts  # Sample data and JSON I/O
+├── test-data/            # Sample JSON files
+│   ├── circular-deadlock.json
+│   ├── safe-state-multi.json
+│   ├── banking-deadlock.json
+│   └── ...
 │
-├── App.tsx         # Main application component
-└── main.tsx        # Entry point
+├── index.html            # HTML entry point
+├── vite.config.js        # Vite configuration
+├── package.json          # Dependencies
+├── jsconfig.json         # JavaScript configuration
+└── eslint.config.js      # Linting rules
 ```
 
 ---
@@ -69,49 +161,73 @@ src/
 
 ### Process
 
-Represents a process in the system.
+Represents a single process in the system.
 
-```typescript
-interface Process {
-  pid: number;      // Process ID (0, 1, 2, ...)
-  name: string;     // Display name ("P0", "P1", ...)
-}
+```javascript
+/**
+ * @typedef {Object} Process
+ * @property {number} pid - Process ID (0, 1, 2, ...)
+ * @property {string} name - Display name ("P0", "P1", ...)
+ */
+const process = {
+  pid: 0,
+  name: "P0"
+};
 ```
-
-**Validation:**
-- `pid` must be non-negative
-- `name` cannot be empty
 
 ### ResourceType
 
-Represents a type of resource with instance count.
+Represents a resource type with instance count.
 
-```typescript
-interface ResourceType {
-  rid: number;         // Resource ID (0, 1, 2, ...)
-  name: string;        // Display name ("R0", "R1", ...)
-  instances: number;   // Total instances available
-}
+```javascript
+/**
+ * @typedef {Object} ResourceType
+ * @property {number} rid - Resource ID (0, 1, 2, ...)
+ * @property {string} name - Display name ("R0", "R1", ...)
+ * @property {number} instances - Total instances available
+ */
+const resourceType = {
+  rid: 0,
+  name: "R0",
+  instances: 3
+};
 ```
-
-**Validation:**
-- `rid` must be non-negative
-- `instances` must be non-negative
-- `name` cannot be empty
 
 ### SystemState
 
 Complete system state for deadlock detection.
 
-```typescript
-interface SystemState {
-  processes: Process[];
-  resource_types: ResourceType[];
-  available: number[];           // Available[m]
-  allocation: number[][];        // Allocation[n][m]
-  request: number[][];           // Request[n][m]
-}
+```javascript
+/**
+ * @typedef {Object} SystemState
+ * @property {Process[]} processes - List of processes
+ * @property {ResourceType[]} resource_types - List of resources
+ * @property {number[]} available - Available[m] vector
+ * @property {number[][]} allocation - Allocation[n][m] matrix
+ * @property {number[][]} request - Request[n][m] matrix
+ */
+const systemState = {
+  processes: [
+    { pid: 0, name: "P0" },
+    { pid: 1, name: "P1" }
+  ],
+  resource_types: [
+    { rid: 0, name: "R0", instances: 3 },
+    { rid: 1, name: "R1", instances: 2 }
+  ],
+  available: [1, 0],
+  allocation: [
+    [1, 1],  // P0 allocation
+    [1, 1]   // P1 allocation
+  ],
+  request: [
+    [0, 1],  // P0 request
+    [1, 0]   // P1 request
+  ]
+};
 ```
+
+### Invariants
 
 **Matrix Dimensions:**
 - `n` = number of processes
@@ -120,13 +236,12 @@ interface SystemState {
 - `allocation`: `n × m` matrix
 - `request`: `n × m` matrix
 
-**Invariants:**
-1. All matrices must have correct dimensions
-2. All values must be non-negative
-3. Resource conservation: For each resource j,
-   ```
-   Available[j] + Σ(Allocation[i][j]) = ResourceTypes[j].instances
-   ```
+**Resource Conservation:**
+
+For each resource j:
+```
+available[j] + Σ(allocation[i][j]) = resource_types[j].instances
+```
 
 ---
 
@@ -134,46 +249,33 @@ interface SystemState {
 
 ### Matrix-Based Detection
 
-**File:** `src/algorithms/matrix.ts`
+**File:** `src/algorithms/matrix.js`
 
-**Function:** `detectDeadlockMatrix(state: SystemState): MatrixDetectionResult`
+**Function:** `detectDeadlockMatrix(state)`
 
-**Algorithm (Banker's Algorithm Variant):**
+**Algorithm:** Work/Finish vector approach (Banker's Algorithm variant)
 
 ```
-Input: SystemState with n processes, m resources
-Output: MatrixDetectionResult
+Input: SystemState
+Output: DetectionResult
 
 1. Initialize:
    Work ← Available
-   Finish[i] ← False for all i ∈ [0, n-1]
-   execution_order ← []
+   Finish[i] ← false for all i
 
 2. Repeat until no progress:
-   Found ← False
-   For i = 0 to n-1:
-     If Finish[i] == False AND Request[i] ≤ Work:
-       Finish[i] ← True
+   For each process i:
+     If Finish[i] == false AND Request[i] ≤ Work:
+       Finish[i] ← true
        Work ← Work + Allocation[i]
-       execution_order.append(i)
-       Found ← True
-   
-   If NOT Found:
-     Break
 
 3. Determine deadlock:
-   deadlocked_processes ← {i | Finish[i] == False}
-   
-4. Return:
-   - deadlocked: |deadlocked_processes| > 0
-   - deadlocked_processes
-   - finish vector
-   - execution_order
-   - trace (step-by-step log)
+   If any Finish[i] == false:
+     Those processes are deadlocked
 ```
 
 **Time Complexity:** O(n² × m)
-- Outer loop: at most n iterations
+- Outer loop: ≤ n iterations
 - Inner loop: n processes
 - Vector comparison: O(m)
 
@@ -181,237 +283,429 @@ Output: MatrixDetectionResult
 
 **Key Functions:**
 
-```typescript
-// Check if request vector ≤ work vector
-function vectorLessEqual(req: number[], work: number[]): boolean
+```javascript
+// Check if request ≤ work (component-wise)
+function vectorLessEqual(req, work) {
+  return req.every((r, i) => r <= work[i]);
+}
 
-// Add two vectors component-wise
-function vectorAdd(a: number[], b: number[]): number[]
+// Add two vectors
+function vectorAdd(a, b) {
+  return a.map((x, i) => x + b[i]);
+}
 
-// Main detection function
-function detectDeadlockMatrix(state: SystemState): MatrixDetectionResult
+// Main detection
+export function detectDeadlockMatrix(state) {
+  // ... implementation
+}
 ```
 
-### Wait-For Graph (WFG) Detection
-
-**File:** `src/algorithms/wfg.ts`
-
-**Function:** `detectDeadlockWFG(state: SystemState): WFGDetectionResult`
-
-**Algorithm:**
+**Example Trace:**
 
 ```
-Input: SystemState with n processes, m resources
-Output: WFGDetectionResult
+=== Matrix-Based Deadlock Detection ===
+
+System: 3 processes, 3 resource types
+
+Initial State:
+Available = [0, 0, 0]
+Work = [0, 0, 0]
+Finish = [false, false, false]
+
+--- Iteration 1 ---
+Checking P0: Request[0] = [0, 1, 0]
+  Request[0] > Work → Cannot finish
+
+Checking P1: Request[1] = [0, 0, 1]
+  Request[1] > Work → Cannot finish
+
+Checking P2: Request[2] = [1, 0, 0]
+  Request[2] > Work → Cannot finish
+
+No progress made.
+
+Result: Deadlocked processes = {P0, P1, P2}
+```
+
+### Wait-For Graph (WFG) Algorithm
+
+**File:** `src/algorithms/wfg.js`
+
+**Function:** `detectDeadlockWFG(state)`
+
+**Algorithm:** Graph cycle detection using DFS
+
+```
+Input: SystemState
+Output: DetectionResult
 
 1. Build Wait-For Graph:
-   adjacency ← empty graph with n nodes
-   edges ← []
-   
-   For i = 0 to n-1:
-     For j = 0 to m-1:
-       If Request[i][j] > 0:
-         For k = 0 to n-1 (k ≠ i):
-           If Allocation[k][j] > 0:
-             adjacency[i].add(k)
-             edges.append((i, k, j))
+   For each process i and resource j:
+     If Request[i][j] > 0:
+       For each process k where Allocation[k][j] > 0:
+         Add edge: i → k
 
-2. Detect Cycles using DFS:
-   cycles ← []
-   visited ← empty set
-   recStack ← empty set
-   
-   For each node i:
-     If i not in visited:
-       DFS(i, visited, recStack, cycles)
+2. Detect Cycles:
+   Use DFS with recursion stack
+   If back edge found → Cycle exists
 
-3. Extract deadlocked processes:
-   deadlocked_processes ← union of all processes in cycles
-
-4. Return:
-   - deadlocked: |cycles| > 0
-   - deadlocked_processes
-   - cycles
-   - wait_for_edges
-   - trace
+3. Extract Deadlocked Processes:
+   All processes in cycles
 ```
 
-**Time Complexity:** O(n² + m × n²)
+**Time Complexity:** O(n²)
 - Graph building: O(m × n²)
-- Cycle detection: O(n + edges) = O(n²)
+- DFS: O(n + edges) = O(n²)
 
 **Space Complexity:** O(n²) for adjacency list
 
 **Key Functions:**
 
-```typescript
-// Build wait-for graph from system state
-function buildWaitForGraph(state: SystemState): {
-  adjacency: Map<number, Set<number>>;
-  edges: WaitForEdge[];
+```javascript
+// Build wait-for graph
+function buildWaitForGraph(state) {
+  const adjacency = new Map();
+  const edges = [];
+  
+  // For each process requesting resources
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (state.request[i][j] > 0) {
+        // Find who holds this resource
+        for (let k = 0; k < n; k++) {
+          if (k !== i && state.allocation[k][j] > 0) {
+            adjacency.get(i).add(k);
+            edges.push({ from_pid: i, to_pid: k, resource_id: j });
+          }
+        }
+      }
+    }
+  }
+  
+  return { adjacency, edges };
 }
 
 // Detect cycles using DFS
-function detectCycles(
-  adjacency: Map<number, Set<number>>,
-  n: number
-): CycleInfo[]
+function detectCycles(adjacency, n) {
+  const cycles = [];
+  const visited = new Set();
+  const recStack = new Set();
+  
+  function dfs(node, path) {
+    visited.add(node);
+    recStack.add(node);
+    path.push(node);
+    
+    for (const neighbor of adjacency.get(node)) {
+      if (!visited.has(neighbor)) {
+        dfs(neighbor, path);
+      } else if (recStack.has(neighbor)) {
+        // Cycle found!
+        const cycleStart = path.indexOf(neighbor);
+        cycles.push(path.slice(cycleStart));
+      }
+    }
+    
+    recStack.delete(node);
+    path.pop();
+  }
+  
+  for (let i = 0; i < n; i++) {
+    if (!visited.has(i)) {
+      dfs(i, []);
+    }
+  }
+  
+  return cycles;
+}
 ```
 
 **Important Note:**
-WFG is only correct for **single-instance** resources. For multi-instance resources, use matrix-based detection.
+
+WFG is **only correct** for single-instance resources. For multi-instance, use matrix-based detection.
 
 ---
 
-## Recovery Strategies
+## Recovery Algorithms
 
-**File:** `src/algorithms/recovery.ts`
+**File:** `src/algorithms/recovery.js`
 
 ### Process Termination
 
-**Function:** `findMinimalTerminationSet(state, deadlocked_pids)`
+Finds minimal sets of processes to terminate.
 
-**Algorithm:**
-
-```
-Input: SystemState, deadlocked process IDs
-Output: List of RecoverySuggestions
-
-1. For size = 1 to |deadlocked_pids|:
-   For each subset S of deadlocked_pids with |S| = size:
-     terminated ← S
-     can_recover ← canSystemRecover(state, terminated)
-     
-     If can_recover:
-       suggestions.append(
-         action: "terminate",
-         processes: terminated,
-         explanation: recovery trace
-       )
-   
-   If suggestions not empty:
-     Return suggestions  # Return minimal solutions
-
-2. Return suggestions
+```javascript
+export function findMinimalTerminationSet(state, deadlocked_pids) {
+  const suggestions = [];
+  
+  // Try progressively larger subsets
+  for (let size = 1; size <= deadlocked_pids.size; size++) {
+    const subsets = generateSubsets(deadlocked_pids, size);
+    
+    for (const subset of subsets) {
+      const result = canSystemRecover(state, subset);
+      
+      if (result.can_recover) {
+        suggestions.push({
+          action: "terminate",
+          processes: subset,
+          explanation: result.trace
+        });
+      }
+    }
+    
+    if (suggestions.length > 0) {
+      return suggestions;  // Return minimal solutions
+    }
+  }
+  
+  return suggestions;
+}
 ```
 
 **Strategy:**
-- Try terminating progressively larger sets
-- Return the smallest set that breaks the deadlock
-- Multiple solutions of the same size may exist
+- Tries terminating 1, 2, 3, ... processes
+- Returns first successful sets (minimal)
+- Multiple solutions possible
 
 ### Resource Preemption
 
-**Function:** `suggestPreemptionTargets(state, deadlocked_pids)`
+Suggests taking resources from processes.
 
-**Algorithm:**
-
-```
-Input: SystemState, deadlocked process IDs
-Output: List of RecoverySuggestions
-
-For each pid in deadlocked_pids:
-  held_resources ← {j | Allocation[pid][j] > 0}
+```javascript
+export function suggestPreemptionTargets(state, deadlocked_pids) {
+  const suggestions = [];
   
-  If held_resources not empty:
-    suggestions.append(
-      action: "preempt",
-      processes: {pid},
-      resources: held_resources,
-      explanation: details
-    )
-
-Return suggestions
+  for (const pid of deadlocked_pids) {
+    const held_resources = [];
+    
+    for (let j = 0; j < state.resource_types.length; j++) {
+      if (state.allocation[pid][j] > 0) {
+        held_resources.push(j);
+      }
+    }
+    
+    if (held_resources.length > 0) {
+      suggestions.push({
+        action: "preempt",
+        processes: [pid],
+        resources: held_resources,
+        explanation: `Preempt ${held_resources.map(r => 'R' + r).join(', ')} from P${pid}`
+      });
+    }
+  }
+  
+  return suggestions;
+}
 ```
 
 **Strategy:**
-- Suggest preempting resources from each deadlocked process
-- Process would need to be rolled back and restarted
-- Simpler than termination but requires rollback mechanism
+- For each deadlocked process
+- List resources it holds
+- Suggest preempting those resources
+- Process must be rolled back
 
 ---
 
-## Component Structure
+## Component Architecture
 
-### App.tsx - Main Application
+### App.jsx - Main Application
 
 **State:**
-```typescript
-const [currentTab, setCurrentTab] = useState<Tab>('input');
-const [systemState, setSystemState] = useState<SystemState>(createEmptySystemState());
-const [detectionResult, setDetectionResult] = useState<any>(null);
-const [algorithm, setAlgorithm] = useState<'wfg' | 'matrix'>('matrix');
+
+```javascript
+const [currentTab, setCurrentTab] = useState('input');
+const [systemState, setSystemState] = useState(createEmptySystemState());
+const [detectionResult, setDetectionResult] = useState(null);
 ```
 
 **Key Functions:**
-- `handleAnalyze()` - Runs detection and switches to results tab
-- `handleTabChange(tab)` - Changes active tab
 
-### InputTab.tsx - Data Entry
+```javascript
+const handleAnalyze = () => {
+  // 1. Select algorithm based on resource instances
+  const allSingleInstance = systemState.resource_types.every(r => r.instances === 1);
+  const algorithm = allSingleInstance ? 'wfg' : 'matrix';
+  
+  // 2. Run detection
+  const result = algorithm === 'wfg' 
+    ? detectDeadlockWFG(systemState)
+    : detectDeadlockMatrix(systemState);
+  
+  // 3. Generate recovery strategies
+  const recovery = result.deadlocked 
+    ? generateRecoverySuggestions(systemState, result.deadlocked_processes)
+    : null;
+  
+  // 4. Update state
+  setDetectionResult({ ...result, recovery, algorithm });
+  setCurrentTab('results');
+};
+```
+
+### InputTab.jsx - Data Entry
 
 **Props:**
-```typescript
-interface InputTabProps {
-  systemState: SystemState;
-  setSystemState: (state: SystemState) => void;
-  algorithm: 'wfg' | 'matrix';
-  setAlgorithm: (algo: 'wfg' | 'matrix') => void;
-  onAnalyze: () => void;
+
+```javascript
+{
+  systemState: SystemState,
+  setSystemState: (state) => void,
+  onAnalyze: () => void
 }
 ```
 
 **Key Functions:**
-- `handleLoadSample(name)` - Loads pre-configured sample
-- `handleExportJSON()` - Exports state to JSON file
-- `handleImportJSON()` - Imports state from JSON file
-- `updateAllocation(pid, rid, value)` - Updates allocation matrix
-- `updateRequest(pid, rid, value)` - Updates request matrix
-- `updateResourceInstances(rid, value)` - Updates resource instances
 
-### VisualizationTab.tsx - Graph Visualization
+```javascript
+// Load sample dataset
+const handleLoadSample = (sampleName) => {
+  const sample = getSampleByName(sampleName);
+  setSystemState(sample);
+};
+
+// Update allocation cell
+const updateAllocation = (pid, rid, value) => {
+  const newAllocation = [...systemState.allocation];
+  newAllocation[pid][rid] = parseInt(value) || 0;
+  
+  setSystemState({
+    ...systemState,
+    allocation: newAllocation
+  });
+};
+
+// Export to JSON
+const handleExportJSON = () => {
+  const json = JSON.stringify(systemState, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'system-state.json';
+  a.click();
+};
+```
+
+### VisualizationTab.jsx - Graph Display
 
 **Props:**
-```typescript
-interface VisualizationTabProps {
-  systemState: SystemState;
-  detectionResult: any;
+
+```javascript
+{
+  systemState: SystemState,
+  detectionResult: DetectionResult
 }
 ```
 
 **Rendering Logic:**
-1. Create node data (processes and resources)
-2. Create edge data (allocations and requests)
-3. Position nodes in 2D space
-4. Draw edges with D3.js
-5. Draw nodes with D3.js
-6. Animate with GSAP
 
-**Node Positioning:**
-- Processes: Top row, evenly spaced
-- Resources: Bottom row, evenly spaced
+```javascript
+useEffect(() => {
+  const svg = d3.select(svgRef.current);
+  svg.selectAll('*').remove();
+  
+  // 1. Create node data
+  const nodes = [
+    ...processes.map(p => ({
+      id: `P${p.pid}`,
+      type: 'process',
+      deadlocked: detectionResult.deadlocked_processes.has(p.pid)
+    })),
+    ...resources.map(r => ({
+      id: `R${r.rid}`,
+      type: 'resource'
+    }))
+  ];
+  
+  // 2. Create edge data
+  const edges = [];
+  
+  // Allocation edges (green)
+  allocation.forEach((row, i) => {
+    row.forEach((val, j) => {
+      if (val > 0) {
+        edges.push({
+          source: `R${j}`,
+          target: `P${i}`,
+          type: 'allocation'
+        });
+      }
+    });
+  });
+  
+  // Request edges (yellow)
+  request.forEach((row, i) => {
+    row.forEach((val, j) => {
+      if (val > 0) {
+        edges.push({
+          source: `P${i}`,
+          target: `R${j}`,
+          type: 'request'
+        });
+      }
+    });
+  });
+  
+  // 3. Draw graph with D3
+  drawGraph(svg, nodes, edges);
+}, [systemState, detectionResult]);
+```
 
-**Color Coding:**
-- Safe process: Blue (#3b82f6)
-- Deadlocked process: Red (#ef4444)
-- Resource: Purple (#8b5cf6)
+**D3.js Graph Drawing:**
 
-**Edge Types:**
-- Allocation: Green solid line with arrowhead
-- Request: Yellow dashed line with arrowhead
+```javascript
+function drawGraph(svg, nodes, edges) {
+  const width = 800;
+  const height = 600;
+  
+  // Draw edges
+  svg.selectAll('line')
+    .data(edges)
+    .enter()
+    .append('line')
+    .attr('stroke', d => d.type === 'allocation' ? '#10b981' : '#fbbf24')
+    .attr('stroke-dasharray', d => d.type === 'request' ? '5,5' : '0')
+    .attr('stroke-width', 2);
+  
+  // Draw nodes
+  svg.selectAll('circle')
+    .data(nodes)
+    .enter()
+    .append('circle')
+    .attr('r', 30)
+    .attr('fill', d => {
+      if (d.type === 'resource') return '#8b5cf6';
+      return d.deadlocked ? '#ef4444' : '#3b82f6';
+    });
+  
+  // Add labels
+  svg.selectAll('text')
+    .data(nodes)
+    .enter()
+    .append('text')
+    .text(d => d.id)
+    .attr('text-anchor', 'middle')
+    .attr('fill', '#fff');
+}
+```
 
-### ResultsTab.tsx - Results Display
+### ResultsTab.jsx - Results Display
 
 **Props:**
-```typescript
-interface ResultsTabProps {
-  detectionResult: any;
+
+```javascript
+{
+  detectionResult: DetectionResult
 }
 ```
 
 **Sections:**
-1. Status Banner - Shows safe/deadlocked status
-2. Detection Trace - Step-by-step algorithm execution
-3. Recovery Strategies - Termination and preemption suggestions
+
+1. **Status Banner** - Safe/Deadlocked indicator
+2. **Detection Trace** - Step-by-step logs
+3. **Recovery Strategies** - Termination/preemption options
 
 ---
 
@@ -420,120 +714,167 @@ interface ResultsTabProps {
 ### State Flow
 
 ```
-User Input (InputTab)
-      ↓
-System State (App)
-      ↓
-Detection Algorithm
-      ↓
-Detection Result (App)
-      ↓
-├─→ VisualizationTab (renders graph)
-└─→ ResultsTab (shows analysis)
+User Input → systemState (App)
+                ↓
+           handleAnalyze()
+                ↓
+        Detection Algorithm
+                ↓
+         detectionResult (App)
+                ↓
+        ┌───────┴────────┐
+        ↓                ↓
+  VisualizationTab   ResultsTab
 ```
 
-### State Updates
+### Immutability Pattern
 
-**Immutability:**
-All state updates use immutable patterns:
+**Always:**
 
-```typescript
-// Good
+```javascript
+// ✅ Good - Create new object
 setSystemState({
   ...systemState,
-  allocation: newAllocation,
+  allocation: newAllocation
 });
+```
 
-// Bad
+**Never:**
+
+```javascript
+// ❌ Bad - Mutate existing state
 systemState.allocation = newAllocation;
 setSystemState(systemState);
 ```
 
 ---
 
-## Animation System
+## Visualization System
 
-### GSAP Integration
+### D3.js Integration
 
-**Page Load Animation:**
-```typescript
+**SVG Creation:**
+
+```javascript
+const svg = d3.select(svgRef.current)
+  .attr('width', width)
+  .attr('height', height);
+```
+
+**Data Binding:**
+
+```javascript
+svg.selectAll('circle')
+  .data(nodes)
+  .enter()
+  .append('circle')
+  .attr('r', 30)
+  .attr('cx', (d, i) => i * 100)
+  .attr('cy', 300);
+```
+
+### GSAP Animations
+
+**Page Load:**
+
+```javascript
 useEffect(() => {
   gsap.fromTo(
-    element,
+    mainRef.current,
     { opacity: 0, y: 20 },
     { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
   );
 }, []);
 ```
 
-**Tab Transition:**
-```typescript
+**Tab Transitions:**
+
+```javascript
 useEffect(() => {
   gsap.fromTo(
     '.tab-content',
     { opacity: 0, x: 20 },
-    { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }
+    { opacity: 1, x: 0, duration: 0.4 }
   );
 }, [currentTab]);
 ```
 
-**Graph Node Animation:**
-```typescript
-gsap.to(nodes, {
-  attr: { opacity: 1 },
-  duration: 0.5,
-  stagger: 0.05,
-  ease: 'back.out(1.7)',
-});
-```
-
 ---
 
-## Testing
+## Performance
 
-### Manual Testing Checklist
+### Algorithm Performance
 
-**Input Tab:**
-- [ ] Load each sample dataset
-- [ ] Edit allocation values
-- [ ] Edit request values
-- [ ] Edit resource instances
-- [ ] Switch algorithms
-- [ ] Export to JSON
-- [ ] Import from JSON
+| Algorithm | Complexity | Max Practical Size |
+|-----------|------------|-------------------|
+| Matrix | O(n²×m) | n=100, m=50 |
+| WFG | O(n²) | n=1000 |
+| Recovery | O(2ⁿ) | n=10 |
 
-**Visualization Tab:**
-- [ ] Graph renders correctly
-- [ ] Deadlocked processes are red
-- [ ] Safe processes are blue
-- [ ] Edges show correct relationships
-- [ ] Animations are smooth
+### React Performance
 
-**Results Tab:**
-- [ ] Status banner shows correct state
-- [ ] Trace is complete and readable
-- [ ] Recovery strategies make sense
-- [ ] All processes accounted for
+**Optimization Techniques:**
 
-### Test Scenarios
+```javascript
+// Use React.memo for expensive components
+const VisualizationTab = React.memo(({ systemState, detectionResult }) => {
+  // ...
+});
 
-1. **Circular Deadlock**: Should detect deadlock, show cycle
-2. **Safe State**: Should show no deadlock, safe sequence
-3. **Partial Deadlock**: Should show some deadlocked, some safe
-4. **Empty Available**: Should detect deadlock if requests exist
-5. **No Requests**: Should show safe state
+// Use useCallback for event handlers
+const handleLoadSample = useCallback((name) => {
+  // ...
+}, []);
+
+// Use useMemo for expensive calculations
+const processedData = useMemo(() => {
+  return expensiveCalculation(data);
+}, [data]);
+```
 
 ---
 
 ## Contributing
 
+### Getting Started
+
+```bash
+# Fork repository
+git clone https://github.com/YOUR_USERNAME/OS-CA-Automated-Deadlock-Detection-Tool.git
+cd OS-CA-Automated-Deadlock-Detection-Tool
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Make changes and test
+npm run dev
+
+# Commit and push
+git add .
+git commit -m "Add your feature"
+git push origin feature/your-feature-name
+
+# Open Pull Request on GitHub
+```
+
 ### Code Style
 
-- Use TypeScript strict mode
-- Follow React hooks best practices
-- Use functional components only
-- Prefer const over let
-- Use meaningful variable names
+**JavaScript:**
+- Use ES6+ features
+- Prefer `const` over `let`
+- Use arrow functions
+- Add JSDoc comments
+
+**React:**
+- Functional components only
+- Use hooks (useState, useEffect, etc.)
+- Props destructuring
+- Meaningful component names
+
+**CSS:**
+- Use CSS variables
+- Mobile-first approach
+- BEM naming convention
 
 ### Commit Messages
 
@@ -542,39 +883,10 @@ feat: Add new recovery strategy visualization
 fix: Correct WFG cycle detection logic
 docs: Update algorithm guide
 style: Improve button hover effects
-refactor: Extract matrix utils to separate file
+refactor: Extract matrix utils
+test: Add unit tests for recovery
+perf: Optimize graph rendering
 ```
-
-### Pull Request Process
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit PR with clear description
-
----
-
-## Performance Considerations
-
-### Algorithm Performance
-
-- Matrix detection: O(n² × m) - acceptable for n, m < 100
-- WFG detection: O(n²) - very fast
-- Recovery: Exponential worst case, but practical for small n
-
-### React Performance
-
-- Use `React.memo()` for expensive components
-- Avoid inline function definitions in render
-- Use `useCallback()` for event handlers
-- Use `useMemo()` for expensive calculations
-
-### D3 Performance
-
-- Limit number of nodes to < 50 for smooth animations
-- Use `requestAnimationFrame` for complex updates
-- Debounce resize events
 
 ---
 
@@ -582,44 +894,78 @@ refactor: Extract matrix utils to separate file
 
 ### Potential Features
 
-1. **Custom Process/Resource Creation**
-   - Add/remove processes dynamically
-   - Add/remove resources dynamically
+1. **Unit Testing**
+   - Jest + React Testing Library
+   - Algorithm correctness tests
+   - Component snapshot tests
 
-2. **Animation Controls**
-   - Play/pause detection animation
-   - Step through algorithm manually
+2. **TypeScript Migration**
+   - Full type safety
+   - Better IDE support
+   - Catch errors at compile time
 
-3. **Export Options**
-   - Export graph as SVG/PNG
-   - Export results as PDF
-
-4. **Advanced Visualization**
-   - 3D graph rendering
+3. **Advanced Visualization**
    - Force-directed layout
    - Interactive node dragging
+   - Zoom and pan
+   - Export as SVG/PNG
 
-5. **Educational Mode**
-   - Quiz questions
-   - Guided tutorials
-   - Algorithm comparison side-by-side
+4. **Educational Mode**
+   - Step-by-step animation
+   - Interactive tutorials
+   - Quiz mode
+
+5. **Collaboration**
+   - Share via URL
+   - Cloud save/load
+   - Real-time collaboration
 
 ---
 
-## References
+## API Reference
 
-### Algorithm Sources
+### Algorithm Functions
 
-- **Silberschatz, Galvin, Gagne**: Operating System Concepts (10th Edition)
-- **Tanenbaum**: Modern Operating Systems
-- **Banker's Algorithm**: Dijkstra, 1965
+```javascript
+// Matrix-based detection
+detectDeadlockMatrix(state: SystemState): DetectionResult
 
-### Libraries
+// Wait-For Graph detection
+detectDeadlockWFG(state: SystemState): DetectionResult
 
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [D3.js Documentation](https://d3js.org/)
-- [GSAP Documentation](https://greensock.com/docs/)
+// Recovery strategies
+generateRecoverySuggestions(
+  state: SystemState,
+  deadlocked: Set<number>
+): RecoveryStrategy[]
+```
+
+### Utility Functions
+
+```javascript
+// Create empty system state
+createEmptySystemState(): SystemState
+
+// Get sample by name
+getSampleByName(name: string): SystemState
+
+// Validate system state
+validateSystemState(state: SystemState): boolean
+```
+
+---
+
+## Resources
+
+### Documentation
+- [React Docs](https://react.dev/)
+- [D3.js Docs](https://d3js.org/)
+- [GSAP Docs](https://greensock.com/docs/)
+- [Vite Docs](https://vitejs.dev/)
+
+### Textbooks
+- *Operating System Concepts* (Silberschatz et al.)
+- *Modern Operating Systems* (Tanenbaum)
 
 ---
 

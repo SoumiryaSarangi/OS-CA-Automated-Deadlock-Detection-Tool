@@ -1,50 +1,93 @@
-# 🔍 Deadlock Detective - React Edition
+# 🔍 Deadlock Detective - React Web Application
 
-> **Automated Deadlock Detection & Analysis Tool for Operating Systems**
+## Automated Deadlock Detection Tool for Operating Systems
 
-A modern, interactive web application for detecting and analyzing deadlocks in simulated operating system processes. Built with React, TypeScript, D3.js, and GSAP for smooth, beautiful animations.
+A modern, interactive web application for detecting and visualizing deadlocks in operating system processes using industry-standard algorithms.
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
-![React](https://img.shields.io/badge/React-18+-61dafb)
-![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178c6)
-![License](https://img.shields.io/badge/license-MIT-green)
+[![React](https://img.shields.io/badge/React-19.2-blue)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2-646CFF)](https://vitejs.dev/)
+[![D3.js](https://img.shields.io/badge/D3.js-7.9-F9A03C)](https://d3js.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## ✨ Features
+## 📖 Overview
+
+**Deadlock Detective** is a web-based educational tool that helps students and developers understand **deadlock detection** in operating systems. It implements two industry-standard algorithms and provides interactive visualizations to make learning intuitive and engaging.
+
+**Perfect for:**
+- 🎓 Students learning Operating Systems
+- 👨‍🏫 Educators teaching concurrency and synchronization
+- 💻 Developers studying resource management
+- 📚 Anyone interested in how computers handle process deadlocks
+
+---
+
+## 🎯 Problem Statement
+
+> **"Develop a tool that automatically detects potential deadlocks in system processes. The tool should analyze process dependencies and resource allocation to identify circular wait conditions and suggest resolution strategies."**
+
+### Solution Implemented
+
+This web application:
+
+1. ✅ **Analyzes** process dependencies and resource allocations
+2. ✅ **Detects** deadlocks using two proven algorithms
+3. ✅ **Visualizes** system state with interactive graphs
+4. ✅ **Explains** detection process step-by-step
+5. ✅ **Suggests** multiple recovery strategies
+
+---
+
+## ✨ Key Features
 
 ### 🔍 **Dual Detection Algorithms**
-- **Matrix-Based Detection** - For multi-instance resources (Banker's Algorithm variant)
-- **Wait-For Graph (WFG)** - For single-instance resources with cycle detection
 
-### 📊 **Interactive Visualization**
-- Beautiful D3.js-powered graph visualization
-- Color-coded nodes (Safe/Deadlocked processes, Resources)
-- Animated edges showing allocation and request relationships
-- Real-time updates with GSAP animations
+- **Matrix-Based Detection** - Uses Work/Finish vectors for multi-instance resources (O(n²×m))
+- **Wait-For Graph (WFG)** - Uses cycle detection for single-instance resources (O(n²))
+- Automatic algorithm selection based on system configuration
 
-### 📝 **Intuitive Data Entry**
-- Editable tables for processes, resources, allocation, and request matrices
-- Real-time validation and error checking
-- JSON import/export for saving and sharing configurations
+### 📊 **Interactive D3.js Visualization**
 
-### 💾 **Pre-loaded Sample Datasets**
-- **Circular Deadlock** - Classic 3-process circular wait
-- **Safe State** - Multi-instance safe system
-- **Multi-Instance Deadlock** - Complex multi-resource deadlock
-- **Partial Deadlock** - Some processes deadlocked, others safe
-- **Complex Safe State** - 5-process safe scenario
+- Real-time graph rendering with smooth GSAP animations
+- Color-coded nodes:
+  - 🔵 **Blue** = Safe processes
+  - 🔴 **Red** = Deadlocked processes
+  - 🟣 **Purple** = Resources
+- Animated edges:
+  - **Green solid** → Allocations
+  - **Yellow dashed** → Requests
+
+### 📝 **Educational Traces**
+
+- Complete step-by-step algorithm execution
+- Shows Work vector updates (Matrix algorithm)
+- Displays cycle detection process (WFG algorithm)
+- Detailed explanations for learning
 
 ### 🔧 **Smart Recovery Strategies**
-- **Process Termination** - Minimal set of processes to terminate
-- **Resource Preemption** - Suggest which resources to preempt
-- Step-by-step explanations for each strategy
 
-### 🎨 **Beautiful, Minimal UI**
-- Clean, dark-themed interface
-- Smooth GSAP animations and transitions
-- Fully responsive design (desktop, tablet, mobile)
-- Accessible and user-friendly
+- **Process Termination**: Minimal sets to break deadlock
+- **Resource Preemption**: Suggests which resources to reclaim
+- **What-If Simulation**: Shows system state after recovery
+- Multiple ranked options
+
+### 💾 **5 Pre-loaded Sample Datasets**
+
+1. **Circular Deadlock** - Classic 3-process circular wait
+2. **Safe State** - Multi-instance resources, no deadlock
+3. **Multi-Instance Deadlock** - Deadlock with multiple resource instances
+4. **Partial Deadlock** - Some processes safe, others deadlocked
+5. **Complex Safe State** - 5 processes with safe execution sequence
+
+### 🎨 **Modern Web Interface**
+
+- ✅ No installation required - runs in any modern browser
+- ✅ Responsive design (desktop, tablet, mobile)
+- ✅ Dark theme with clean, minimal aesthetics
+- ✅ Editable allocation and request matrices
+- ✅ JSON import/export for sharing scenarios
+- ✅ GSAP-powered smooth animations (60fps)
 
 ---
 
@@ -53,205 +96,353 @@ A modern, interactive web application for detecting and analyzing deadlocks in s
 ### Prerequisites
 
 - **Node.js** 18+ and npm
-- A modern web browser (Chrome, Firefox, Edge, Safari)
+- Modern web browser (Chrome, Firefox, Edge, Safari)
 
 ### Installation
 
-1. **Navigate to the project directory:**
-
-   ```bash
-   cd deadlock-detective-react
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser:**
-
-   Navigate to `http://localhost:5173`
-
-### Build for Production
-
 ```bash
-npm run build
-npm run preview  # Preview production build
+# Clone the repository
+git clone https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool.git
+cd OS-CA-Automated-Deadlock-Detection-Tool
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### First Usage
+
+1. **Load a Sample**: Click "Circular Deadlock" button
+2. **Analyze**: Click "🔍 Analyze for Deadlock"
+3. **View Results**: See detection results and traces
+4. **Explore Visualization**: Switch to "Visualization" tab
+5. **Try Recovery**: Review suggested recovery strategies
 
 ---
 
-## 📖 How to Use
-
-### 1. **Input Tab - Configure Your System**
-
-- **Load a Sample:** Click any sample button to load a pre-configured scenario
-- **Edit Resources:** Modify total instances for each resource type
-- **Edit Allocation Matrix:** Set how many resource instances each process currently holds
-- **Edit Request Matrix:** Set how many additional resource instances each process needs
-- **Choose Algorithm:** Select Matrix-Based (recommended) or Wait-For Graph
-- **Click "Analyze for Deadlock"** to run detection
-
-### 2. **Visualization Tab - See the Graph**
-
-- View an interactive graph of your system
-- **Blue circles** = Safe processes
-- **Red circles** = Deadlocked processes
-- **Purple circles** = Resources
-- **Green solid arrows** = Allocation (Resource → Process)
-- **Yellow dashed arrows** = Request (Process → Resource)
-
-### 3. **Results Tab - Review Analysis**
-
-- See if the system is **Safe** ✅ or **Deadlocked** 🚨
-- Read the step-by-step detection trace
-- Review recovery strategies if deadlock detected
-- Understand which processes to terminate or which resources to preempt
-
----
-
-## 🏗️ Project Structure
+## 📂 Project Structure
 
 ```
-deadlock-detective-react/
-│
+OS-CA-Automated-Deadlock-Detection-Tool/
 ├── src/
-│   ├── algorithms/          # Detection & recovery algorithms
-│   │   ├── wfg.ts           # Wait-For Graph detection
-│   │   ├── matrix.ts        # Matrix-based detection
-│   │   └── recovery.ts      # Recovery strategies
+│   ├── algorithms/          # Core detection algorithms
+│   │   ├── matrix.js        # Matrix-based detection (multi-instance)
+│   │   ├── wfg.js          # Wait-For Graph detection (single-instance)
+│   │   └── recovery.js      # Recovery strategy generation
 │   │
-│   ├── components/          # React components
-│   │   ├── Header.tsx       # App header
-│   │   ├── InputTab.tsx     # Data entry interface
-│   │   ├── VisualizationTab.tsx  # D3.js graph visualization
-│   │   └── ResultsTab.tsx   # Detection results display
+│   ├── components/          # React UI components
+│   │   ├── Header.jsx       # Application header
+│   │   ├── InputTab.jsx     # Data entry interface
+│   │   ├── VisualizationTab.jsx  # D3.js graph visualization
+│   │   └── ResultsTab.jsx   # Results and traces display
 │   │
-│   ├── types/              # TypeScript type definitions
-│   │   └── models.ts       # Core data models
+│   ├── types/              # Data models
+│   │   └── models.js        # SystemState, Process, Resource types
 │   │
 │   ├── utils/              # Utilities
-│   │   └── samples.ts      # Sample datasets & JSON I/O
+│   │   └── samples.js       # Sample datasets & JSON I/O
 │   │
-│   ├── App.tsx             # Main application component
-│   ├── App.css             # App-level styles
-│   ├── index.css           # Global styles
-│   └── main.tsx            # Application entry point
+│   ├── App.jsx             # Main application component
+│   └── main.jsx            # Entry point
+│
+├── test-data/              # Sample JSON files
+│   ├── circular-deadlock.json
+│   ├── safe-state-multi.json
+│   └── ...
 │
 ├── public/                 # Static assets
-├── package.json           # Dependencies and scripts
-├── tsconfig.json          # TypeScript configuration
-├── vite.config.ts         # Vite configuration
+├── index.html              # HTML entry point
+├── vite.config.js          # Vite configuration
+├── package.json            # Dependencies
 └── README.md              # This file
 ```
 
 ---
 
-## 🧠 Understanding the Algorithms
+## 🎓 Algorithms Explained
 
-### Matrix-Based Detection (Banker's Algorithm)
+### Matrix-Based Detection Algorithm
 
-**Best for:** Multi-instance resources
+**Best for:** Resources with **multiple instances** (e.g., 3 printers, 5 memory blocks)
 
 **How it works:**
-1. Initialize `Work = Available` and `Finish[i] = False` for all processes
-2. Find a process Pi where `Finish[i] == False` AND `Request[i] <= Work`
-3. If found: Set `Finish[i] = True` and `Work = Work + Allocation[i]`
+1. Initialize `Work = Available` and `Finish[i] = false` for all processes
+2. Find a process `i` where `Finish[i] == false` and `Request[i] ≤ Work`
+3. Mark `Finish[i] = true` and update `Work = Work + Allocation[i]`
 4. Repeat until no more processes can finish
-5. Any process with `Finish[i] == False` is deadlocked
+5. Any `Finish[i] == false` → Process `i` is deadlocked
 
-### Wait-For Graph (WFG) Detection
+**Time Complexity:** O(n² × m) where n = processes, m = resource types
 
-**Best for:** Single-instance resources
+### Wait-For Graph (WFG) Algorithm
+
+**Best for:** Resources with **single instances** (e.g., 1 printer, 1 scanner)
 
 **How it works:**
-1. Build a wait-for graph where each node is a process
-2. Add edge `Pi → Pj` if Pi is waiting for a resource held by Pj
-3. Use DFS to detect cycles in the graph
-4. Any process in a cycle is deadlocked
+1. Build directed graph: `Pi → Pj` if Pi waits for a resource held by Pj
+2. Detect cycles using Depth-First Search (DFS)
+3. Any cycle found → Deadlock exists
+4. Processes in cycles are deadlocked
+
+**Time Complexity:** O(n²) where n = processes
 
 ---
 
-## 🎯 Problem Statement
+## 🎮 Usage Guide
 
-**Original Problem:**
+### Input Tab
 
-> "Develop a tool that automatically detects potential deadlocks in system processes. The tool should analyze process dependencies and resource allocation to identify circular wait conditions and suggest resolution strategies."
+**Load Sample Dataset:**
+- Click any sample button to auto-populate data
+- Perfect for learning and experimentation
 
-**Our Solution:**
+**Edit System State:**
+- **Resource Types Table**: Edit total instances per resource
+- **Allocation Matrix**: Current resource holdings (who has what)
+- **Request Matrix**: Resource requests (who wants what)
 
-✅ Automated deadlock detection using two proven algorithms  
-✅ Visual representation of process and resource relationships  
-✅ Step-by-step algorithm execution traces  
-✅ Intelligent recovery strategy suggestions  
-✅ Interactive, user-friendly web interface  
-✅ Sample datasets for learning and testing
+**Run Detection:**
+- Click "🔍 Analyze for Deadlock" button
+- Algorithm runs automatically
+- Results appear in Results tab
+
+**Import/Export:**
+- Export current state as JSON
+- Import saved scenarios
+- Share configurations with others
+
+### Visualization Tab
+
+**Graph Elements:**
+- **Circles** = Processes (P0, P1, ...) or Resources (R0, R1, ...)
+- **Colors**:
+  - Blue = Safe process
+  - Red = Deadlocked process
+  - Purple = Resource
+- **Edges**:
+  - Green solid arrow = Allocation (resource → process)
+  - Yellow dashed arrow = Request (process → resource)
+
+**Reading the Graph:**
+- Follow arrows to see dependencies
+- Circular patterns indicate deadlock
+- Red nodes show deadlocked processes
+
+### Results Tab
+
+**Status Banner:**
+- ✅ Green = System is safe
+- 🚨 Red = Deadlock detected
+
+**Detection Trace:**
+- Step-by-step algorithm execution
+- Shows all calculations and decisions
+- Educational for understanding algorithms
+
+**Recovery Strategies:**
+- **Process Termination**: Which processes to kill
+- **Resource Preemption**: Which resources to reclaim
+- **Explanations**: Why each strategy works
 
 ---
 
-## 🛠️ Technology Stack
+## 📊 Example Scenarios
 
-- **React 18** - Modern UI library
-- **TypeScript 5** - Type-safe JavaScript
-- **Vite** - Lightning-fast build tool
-- **D3.js** - Data-driven graph visualization
-- **GSAP** - Professional-grade animation library
-- **CSS3** - Custom styling with CSS variables
+### Scenario 1: Circular Deadlock
+
+```
+P0: Has R0, Wants R1
+P1: Has R1, Wants R2
+P2: Has R2, Wants R0
+
+Result: DEADLOCK (circular wait: P0 → P1 → P2 → P0)
+```
+
+### Scenario 2: Safe State
+
+```
+P0: Has [1,0], Wants [0,1], Can finish!
+P1: Has [0,1], Wants [1,0], Waits...
+P2: Has [0,0], Wants [0,0], Can finish!
+
+Result: SAFE (execution order: P0 → P2 → P1)
+```
 
 ---
 
-## 📚 Additional Documentation
+## 🧪 Testing
 
-- **USER_GUIDE.md** - Comprehensive user guide with examples
-- **DEVELOPER_GUIDE.md** - Technical documentation for developers
-- **ALGORITHM_GUIDE.md** - Deep dive into detection algorithms
+### Manual Testing
+
+```bash
+# Start dev server
+npm run dev
+
+# Test each sample dataset
+# Test matrix editing
+# Test JSON import/export
+# Test visualization rendering
+```
+
+### Build for Production
+
+```bash
+# Create optimized build
+npm run build
+
+# Preview production build
+npm run preview
+```
 
 ---
 
-## 🎓 Educational Value
+## 🚀 Deployment
 
-This tool helps students understand:
+### Deploy to Vercel
 
-- **Deadlock Conditions** - Mutual exclusion, hold and wait, no preemption, circular wait
-- **Detection Algorithms** - Matrix-based vs graph-based approaches
-- **Recovery Strategies** - Process termination vs resource preemption
-- **System States** - Safe vs unsafe states
+```bash
+npm install -g vercel
+vercel deploy
+```
+
+### Deploy to Netlify
+
+```bash
+npm run build
+# Upload dist/ folder to Netlify
+```
+
+### Deploy to GitHub Pages
+
+```bash
+npm run build
+# Push dist/ folder to gh-pages branch
+```
+
+---
+
+## 💻 Technologies Used
+
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| **React** | UI framework | 19.2.0 |
+| **Vite** | Build tool & dev server | 7.2.4 |
+| **D3.js** | Graph visualization | 7.9.0 |
+| **GSAP** | Animations | 3.13.0 |
+| **JavaScript (ES6+)** | Programming language | Latest |
+| **CSS3** | Styling | Latest |
+
+---
+
+## 📚 Documentation
+
+- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete user manual with examples
+- **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** - Technical documentation for developers
+- **[QUICK_START.md](QUICK_START.md)** - Fast setup guide
+- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Project overview and achievements
+- **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project plan
+
+---
+
+## 🎯 Learning Outcomes
+
+By using this tool, you will learn:
+
+### Operating Systems Concepts
+- ✅ Process and resource management
+- ✅ Deadlock detection algorithms
+- ✅ Safe vs. unsafe states
+- ✅ Circular wait conditions
+- ✅ Recovery strategies
+
+### Algorithm Analysis
+- ✅ Matrix-based detection (Banker's variant)
+- ✅ Graph cycle detection (DFS)
+- ✅ Time complexity analysis
+- ✅ Algorithm selection criteria
+
+### Software Development
+- ✅ React component architecture
+- ✅ State management patterns
+- ✅ D3.js data visualization
+- ✅ Modern JavaScript (ES6+)
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m "Add feature"`
+4. Push to branch: `git push origin feature-name`
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Use ES6+ JavaScript features
+- Follow React best practices
+- Add comments for complex logic
+- Test thoroughly before committing
+- Update documentation if needed
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue:** `npm install` fails
+**Solution:** Ensure Node.js 18+ is installed. Try `npm cache clean --force`
+
+**Issue:** Port 5173 already in use
+**Solution:** Kill process on port or change in `vite.config.js`
+
+**Issue:** Visualization not showing
+**Solution:** Run analysis first on Input tab before viewing Visualization
+
+**Issue:** JSON import fails
+**Solution:** Ensure JSON follows correct schema (see `test-data/` examples)
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
-
----
-
-## 👨‍💻 Authors
-
-**Deadlock Detective Team**
-- React/TypeScript web version (2024)
-- Based on the original Python/PySide6 desktop application
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Based on standard OS textbook algorithms
-- Inspired by operating systems courses worldwide
-- Built for educational purposes
+- **Operating Systems Concepts** by Silberschatz, Galvin, and Gagne
+- **Dijkstra's Banker's Algorithm** (1965)
+- **React Documentation** - [https://react.dev/](https://react.dev/)
+- **D3.js Documentation** - [https://d3js.org/](https://d3js.org/)
 
 ---
 
-**Made with ❤️ for Operating Systems students and enthusiasts**
+## 📞 Contact
+
+- **Repository**: [https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool)
+- **Issues**: [GitHub Issues](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool/issues)
+
+---
+
+## 🎉 Project Status
+
+✅ **Version 2.0** - Complete React web application  
+✅ All algorithms implemented and tested  
+✅ Interactive visualization with D3.js  
+✅ Comprehensive documentation  
+✅ Ready for educational use  
+
+---
+
+**Made with ❤️ for Operating Systems Education**
+
+**Happy Deadlock Detecting! 🔍**

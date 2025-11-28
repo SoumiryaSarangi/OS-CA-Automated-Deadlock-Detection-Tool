@@ -1,37 +1,41 @@
 # 📖 User Guide - Deadlock Detective
 
-## Welcome! 🎉
+## Complete Guide to Using the Deadlock Detection Tool
 
-This guide will help you understand and use the Deadlock Detective tool to detect and analyze deadlocks in simulated operating system processes.
+Welcome to Deadlock Detective! This guide will teach you everything you need to know to effectively use the tool and understand deadlock detection in operating systems.
 
 ---
 
 ## Table of Contents
 
-1. [Getting Started](#getting-started)
+1. [Introduction](#introduction)
 2. [Understanding Deadlocks](#understanding-deadlocks)
-3. [Using the Input Tab](#using-the-input-tab)
-4. [Understanding the Visualization](#understanding-the-visualization)
-5. [Interpreting Results](#interpreting-results)
-6. [Sample Scenarios](#sample-scenarios)
-7. [Tips & Best Practices](#tips--best-practices)
-8. [Troubleshooting](#troubleshooting)
+3. [Getting Started](#getting-started)
+4. [Using the Input Tab](#using-the-input-tab)
+5. [Understanding the Visualization](#understanding-the-visualization)
+6. [Interpreting Results](#interpreting-results)
+7. [Sample Scenarios Explained](#sample-scenarios-explained)
+8. [Tips & Best Practices](#tips--best-practices)
+9. [Troubleshooting](#troubleshooting)
 
 ---
 
-## Getting Started
+## Introduction
 
 ### What is Deadlock Detective?
 
-Deadlock Detective is a web application that helps you:
-- **Detect deadlocks** in a simulated system of processes and resources
-- **Visualize** the relationships between processes and resources
+Deadlock Detective is a web-based tool that helps you:
+- **Detect deadlocks** in simulated operating system processes
+- **Visualize** process-resource relationships with interactive graphs
 - **Understand** how detection algorithms work step-by-step
-- **Learn** about recovery strategies when deadlock occurs
+- **Learn** recovery strategies when deadlocks occur
 
-### Prerequisites
+### Who Should Use This Tool?
 
-No special knowledge required! This tool is designed for beginners learning operating systems concepts.
+- 🎓 **Students** learning Operating Systems concepts
+- 👨‍🏫 **Educators** teaching process synchronization
+- 💻 **Developers** studying concurrent programming
+- 📚 **Self-learners** interested in OS internals
 
 ---
 
@@ -39,203 +43,251 @@ No special knowledge required! This tool is designed for beginners learning oper
 
 ### What is a Deadlock?
 
-A **deadlock** occurs when processes are stuck waiting for each other in a circular pattern. No process can proceed because each is waiting for a resource held by another.
+A **deadlock** occurs when processes are waiting for each other in a circular pattern, preventing any from continuing.
 
-**Real-world analogy:**
-Imagine four cars at a 4-way intersection, each waiting for the car on their right to move first. Nobody can move!
+**Real-World Analogy:**
 
-### Four Necessary Conditions for Deadlock
+Imagine four cars at a 4-way intersection, each waiting for the car on their right to go first. Nobody can move — that's a deadlock!
 
-Deadlock can only occur if ALL four conditions are present:
+### The Four Necessary Conditions
 
-1. **Mutual Exclusion** - Resources cannot be shared (only one process at a time)
-2. **Hold and Wait** - Processes hold resources while waiting for more
-3. **No Preemption** - Resources cannot be forcibly taken away
-4. **Circular Wait** - Processes form a circular chain of waiting
+Deadlock can **only** occur if ALL four conditions exist simultaneously:
+
+1. **Mutual Exclusion**  
+   Resources cannot be shared (only one process can use at a time)
+   
+2. **Hold and Wait**  
+   Processes hold resources while waiting for more
+   
+3. **No Preemption**  
+   Resources cannot be forcibly taken away
+   
+4. **Circular Wait**  
+   Processes form a circular chain of waiting
 
 ### Example: Simple 3-Process Deadlock
 
 ```
-Process P0: Has R0, Wants R1
-Process P1: Has R1, Wants R2
-Process P2: Has R2, Wants R0
+Process P0: Holds R0, Wants R1
+Process P1: Holds R1, Wants R2
+Process P2: Holds R2, Wants R0
 
-P0 → P1 → P2 → P0  (Circular wait!)
+Circular wait: P0 → P1 → P2 → P0
+
+Result: DEADLOCK!
 ```
 
-This is a **deadlock**. No process can proceed.
+---
+
+## Getting Started
+
+### Launching the Application
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### First Look
+
+You'll see three tabs:
+- **Input** - Enter system data
+- **Visualization** - View interactive graph
+- **Results** - See detection results
+
+Start on the **Input** tab.
 
 ---
 
 ## Using the Input Tab
 
-### 1. Load a Sample Dataset
+### Overview
 
-The easiest way to start is by loading a pre-configured sample:
+The Input tab has four main sections:
+1. **Sample Datasets** - Pre-configured examples
+2. **Resource Types Table** - Define resources
+3. **Allocation Matrix** - Current resource holdings
+4. **Request Matrix** - Pending resource requests
 
-- **Circular Deadlock** - Classic 3-process circular wait (deadlocked)
-- **Safe State** - A safe system with no deadlock
-- **Multi-Instance Deadlock** - Deadlock with resources having multiple instances
-- **Partial Deadlock** - Some processes deadlocked, others safe
-- **Complex Safe State** - 5-process safe scenario
+### Loading a Sample Dataset
 
-**How to load:**
-1. Click any sample button in the "Load Sample Dataset" section
-2. The tables below will automatically fill with data
-3. Click "Analyze for Deadlock" to see results
+**Quick Start:** Click any sample button to auto-populate data
 
-### 2. Edit Resource Types
+**Available Samples:**
+- **Circular Deadlock** - Classic deadlock with cycle
+- **Safe State** - No deadlock, safe execution order
+- **Multi-Instance Deadlock** - Deadlock with multiple instances
+- **Partial Deadlock** - Mixed safe/deadlocked processes
+- **Complex Safe State** - 5 processes, no deadlock
 
-The **Resource Types** table shows:
-- **Resource** - Name (R0, R1, R2, etc.)
-- **Total Instances** - How many instances of this resource exist
-- **Available** - How many are currently free (calculated automatically)
+**After loading:** All tables fill automatically. Click "Analyze" to run detection.
 
-**To edit:**
-- Click on any "Total Instances" cell and type a new number
-- Available instances update automatically
+### Resource Types Table
 
-### 3. Edit Allocation Matrix
+Defines the resources in your system.
 
-The **Allocation Matrix** shows how many resource instances each process currently holds.
+| Column | Meaning | Example |
+|--------|---------|---------|
+| **Resource** | Resource name | R0, R1, R2 |
+| **Total Instances** | How many copies exist | 3 |
+| **Available** | Currently free | 1 |
+
+**To Edit:**
+- Click any "Total Instances" cell
+- Type a new number
+- Press Enter
+- Available updates automatically
+
+**Important:** Available is calculated as:
+```
+Available = Total - Sum(All Allocations)
+```
+
+### Allocation Matrix
+
+Shows how many resource instances each process **currently holds**.
 
 **Example:**
 ```
-       R0  R1  R2
-P0  [  1   0   0 ]  <- P0 holds 1 instance of R0
-P1  [  0   1   0 ]  <- P1 holds 1 instance of R1
-P2  [  0   0   1 ]  <- P2 holds 1 instance of R2
+         R0  R1  R2
+P0  [    1   0   0  ]  ← P0 holds 1 instance of R0
+P1  [    0   1   0  ]  ← P1 holds 1 instance of R1
+P2  [    0   0   1  ]  ← P2 holds 1 instance of R2
 ```
 
-**To edit:**
-- Click on any cell and type a number
-- The system automatically updates available resources
+**To Edit:**
+- Click any cell
+- Type a number (0 or positive integer)
+- Press Enter
 
-### 4. Edit Request Matrix
+**What it means:**
+- `Allocation[i][j]` = How many instances of resource `j` process `i` has
 
-The **Request Matrix** shows how many **additional** resource instances each process is requesting.
+### Request Matrix
+
+Shows how many **additional** resource instances each process is requesting.
 
 **Example:**
 ```
-       R0  R1  R2
-P0  [  0   1   0 ]  <- P0 wants 1 more instance of R1
-P1  [  0   0   1 ]  <- P1 wants 1 more instance of R2
-P2  [  1   0   0 ]  <- P2 wants 1 more instance of R0
+         R0  R1  R2
+P0  [    0   1   0  ]  ← P0 wants 1 more R1
+P1  [    0   0   1  ]  ← P1 wants 1 more R2
+P2  [    1   0   0  ]  ← P2 wants 1 more R0
 ```
 
-**To edit:**
-- Click on any cell and type a number
-- This represents what the process is waiting for
+**To Edit:**
+- Click any cell
+- Type a number (0 or positive integer)
+- Press Enter
 
-### 5. Choose an Algorithm
+**What it means:**
+- `Request[i][j]` = How many additional instances of resource `j` process `i` wants
 
-Two algorithms are available:
+### Running Detection
 
-**Matrix-Based Detection (Recommended)**
-- Works for resources with **multiple instances**
-- More general and widely used
-- Uses Work and Finish vectors
+1. **Load or enter data** in the matrices
+2. **Click "🔍 Analyze for Deadlock"** button
+3. Algorithm runs automatically
+4. App switches to **Results** tab
 
-**Wait-For Graph (WFG)**
-- Works for resources with **single instances only**
-- Simpler but more limited
-- Uses graph cycle detection
+The tool **automatically selects** the best algorithm:
+- All resources have 1 instance → **WFG** (faster)
+- Any resource has >1 instance → **Matrix** (more general)
 
-**When to use which:**
-- If any resource has > 1 instance → Use Matrix-Based
-- If all resources have exactly 1 instance → Either works (WFG is simpler)
+### Importing and Exporting JSON
 
-### 6. Analyze for Deadlock
+**Export:**
+1. Click **"Export JSON"** button
+2. File downloads (e.g., `system-state.json`)
+3. Save for later or share with others
 
-Once you've configured your system:
-1. Click the **"🔍 Analyze for Deadlock"** button
-2. The app will switch to the Results tab automatically
-3. You can then view the Visualization tab too
+**Import:**
+1. Click **"Import JSON"** button
+2. Select a `.json` file
+3. Data loads into tables
+
+**Use Cases:**
+- Save your work
+- Share scenarios with classmates
+- Test custom configurations
 
 ---
 
 ## Understanding the Visualization
 
-The **Visualization Tab** shows a graph of your system:
+The **Visualization** tab shows an interactive graph of your system state.
 
 ### Node Types
 
-- **Blue Circles** = Safe processes (not deadlocked)
-- **Red Circles** = Deadlocked processes
-- **Purple Circles** = Resources
+**Circles = Processes or Resources**
+
+- 🔵 **Blue Circle** = Safe process (not deadlocked)
+- 🔴 **Red Circle** = Deadlocked process
+- 🟣 **Purple Circle** = Resource
 
 ### Edge Types
 
-- **Green Solid Arrow** = Allocation (Resource → Process)
-  - Means: Process has been allocated that resource
-- **Yellow Dashed Arrow** = Request (Process → Resource)
-  - Means: Process is waiting for that resource
+**Arrows = Allocations or Requests**
+
+- **Green Solid Arrow** (→) = Allocation  
+  *Meaning:* Resource has been allocated to process
+  
+- **Yellow Dashed Arrow** (⇢) = Request  
+  *Meaning:* Process is requesting resource
 
 ### Reading the Graph
 
 **Example: Circular Deadlock**
+
 ```
-P0 (Red) ← R0 (Purple) ← P2 (Red)
-   ↓                        ↑
-  R1 (Purple)            R2 (Purple)
-   ↓                        ↑
-P1 (Red) ← ← ← ← ← ← ← ← ← ← 
+    R0 (Purple)
+     ↓ (green)
+   P0 (Red) ⇢⇢⇢ (yellow) R1 (Purple)
+                            ↓ (green)
+   R2 (Purple) ⇠⇠⇠ P1 (Red)
+     ↓ (green)
+   P2 (Red) ⇢⇢⇢⇢⇢⇢⇢⇢⇢⇢⇢⇢
 ```
 
+**Interpretation:**
 - P0 holds R0, wants R1
 - P1 holds R1, wants R2
 - P2 holds R2, wants R0
-- **Circular dependency!** → Deadlock
+- **Circular wait detected!** → All three processes are red
+
+### Interactive Features
+
+- **Hover** over nodes to see labels
+- **Pan** by dragging (if implemented)
+- **Legend** shows color meanings
+- **Animations** smoothly reveal graph
 
 ---
 
 ## Interpreting Results
 
-### Safe State ✅
+The **Results** tab shows three sections:
 
-When you see this:
+### 1. Status Banner
 
+Shows whether deadlock was detected.
+
+**Safe State:**
 ```
 ✅ System is Safe
 All processes can complete successfully. No deadlock detected.
 ```
 
-**What it means:**
-- All processes can eventually complete
-- There exists a safe execution sequence
-- No circular wait condition
-
-**Example Safe Sequence:**
-```
-Safe execution sequence: P1 → P3 → P0 → P2
-```
-
-This means if we run processes in this order, all can complete.
-
-### Deadlocked State 🚨
-
-When you see this:
-
+**Deadlocked State:**
 ```
 🚨 Deadlock Detected
 The system is in a deadlocked state. See recovery strategies below.
 ```
 
-**What it means:**
-- Some (or all) processes are stuck
-- They're waiting in a circular pattern
-- System cannot proceed without intervention
+### 2. Detection Trace
 
-**Deadlocked Processes:**
-```
-Deadlocked processes: P0, P1, P2
-```
-
-These processes are stuck and cannot continue.
-
-### Detection Trace
-
-The trace shows step-by-step how the algorithm detected the deadlock:
+Shows step-by-step algorithm execution.
 
 **Matrix-Based Example:**
 ```
@@ -273,11 +325,33 @@ No more processes can finish.
 Deadlocked processes: P0, P1, P2
 ```
 
-### Recovery Strategies
+**What to look for:**
+- `✓` = Process can finish (Request ≤ Work)
+- `✗` = Process is blocked
+- Work vector updates when process finishes
+- Deadlocked processes listed at end
 
-When deadlock is detected, the app suggests two types of recovery:
+**WFG Example:**
+```
+=== Wait-For Graph Deadlock Detection ===
 
-#### 1. Process Termination
+Building wait-for graph...
+Wait-for edges:
+  P0 → P1 (waiting for R1)
+  P1 → P2 (waiting for R2)
+  P2 → P0 (waiting for R0)
+
+Detecting cycles...
+✗ Found 1 cycle(s). System is DEADLOCKED.
+
+Cycle 1: P0 → P1 → P2 → P0
+```
+
+### 3. Recovery Strategies
+
+Suggests ways to break the deadlock.
+
+#### Process Termination
 
 **Example:**
 ```
@@ -293,11 +367,11 @@ When deadlock is detected, the app suggests two types of recovery:
 ```
 
 **What it means:**
-- Kill one or more processes
-- Their resources become available
-- Other processes can continue
+- Kill process P0
+- Its resources (R0) become available
+- Other processes can now continue
 
-#### 2. Resource Preemption
+#### Resource Preemption
 
 **Example:**
 ```
@@ -309,145 +383,224 @@ When deadlock is detected, the app suggests two types of recovery:
 ```
 
 **What it means:**
-- Take resources away from a process (without killing it)
-- Process must be rolled back and restarted later
-- Resources become available for others
+- Take R0 away from P0 (without killing it)
+- P0 must be rolled back (lose progress)
+- R0 becomes available for others
+- P0 can be restarted later
 
 ---
 
-## Sample Scenarios
+## Sample Scenarios Explained
 
-### Scenario 1: Circular Deadlock
+### 1. Circular Deadlock
 
 **Setup:**
 - 3 processes, 3 resources (1 instance each)
-- Each process holds one resource and wants another
-- Forms a cycle: P0 → P1 → P2 → P0
+- Each holds one, wants another
+- Forms cycle: P0 → P1 → P2 → P0
 
-**Expected Result:** Deadlock detected
+**Expected Result:** ✗ DEADLOCK
 
-**Learning Point:** This is the classic deadlock scenario demonstrating circular wait.
+**Learning Point:**  
+Classic circular wait — the most common deadlock pattern.
 
-### Scenario 2: Safe State
-
-**Setup:**
-- 3 processes, 3 resources (multiple instances)
-- Processes can complete in sequence
-
-**Expected Result:** No deadlock
-
-**Learning Point:** Shows that even with requests, a system can be safe if there's a valid execution order.
-
-### Scenario 3: Multi-Instance Deadlock
+### 2. Safe State
 
 **Setup:**
-- 4 processes, 2 resources (multiple instances)
-- Multiple processes competing for limited resources
+- 3 processes, 3 resources (multi-instance)
+- Enough resources for processes to finish sequentially
 
-**Expected Result:** Deadlock detected
+**Expected Result:** ✓ SAFE
 
-**Learning Point:** Deadlock can occur even with multiple resource instances.
+**Learning Point:**  
+Shows safe execution sequence exists: P1 → P3 → P0 → P2
 
-### Scenario 4: Partial Deadlock
+### 3. Multi-Instance Deadlock
+
+**Setup:**
+- 4 processes, 2 resources (multiple instances each)
+- All processes blocked despite multiple instances
+
+**Expected Result:** ✗ DEADLOCK
+
+**Learning Point:**  
+Deadlock can occur even with multiple resource instances.
+
+### 4. Partial Deadlock
 
 **Setup:**
 - 4 processes, 2 resources
-- Some processes are deadlocked, others can complete
+- Some processes safe, others deadlocked
 
-**Expected Result:** Partial deadlock (some processes deadlocked)
+**Expected Result:** ✗ PARTIAL DEADLOCK
 
-**Learning Point:** Not all processes need to be deadlocked for deadlock to exist.
+**Learning Point:**  
+Not all processes need to be deadlocked for system to be unsafe.
+
+### 5. Complex Safe State
+
+**Setup:**
+- 5 processes, 4 resources (complex allocations)
+- System appears complicated but is safe
+
+**Expected Result:** ✓ SAFE
+
+**Learning Point:**  
+Safe sequence: P1 → P3 → P4 → P0 → P2
 
 ---
 
 ## Tips & Best Practices
 
 ### 1. Start with Samples
-- Always load a sample first to see how data should be formatted
+
+- Always load a sample first to see correct format
 - Modify samples rather than starting from scratch
+- Understand each sample before creating custom scenarios
 
 ### 2. Understand Your Data
-- **Allocation** = What processes currently have
-- **Request** = What processes are waiting for
-- **Available** = What's currently free
+
+**Remember:**
+- **Allocation** = What processes currently **have**
+- **Request** = What processes **want** (additional)
+- **Available** = What's **free** right now
 
 ### 3. Resource Conservation Rule
-For each resource:
+
+For each resource j:
 ```
-Total Instances = Available + Sum of All Allocations
+Total[j] = Available[j] + Σ Allocation[i][j]
 ```
 
 If this doesn't hold, you'll get an error.
 
 ### 4. Choose the Right Algorithm
-- **Multi-instance resources?** → Use Matrix-Based
-- **All single-instance?** → Either works
 
-### 5. Export and Save
-- Use **"Export JSON"** to save your configuration
-- Share with classmates or instructors
-- Use **"Import JSON"** to load it back
+**When to use Matrix:**
+- Any resource has multiple instances
+- More general, works for all cases
+- Slightly slower (O(n²×m))
 
-### 6. Read the Trace
-- Don't just look at the final result
-- Read the step-by-step trace to understand *why*
-- This helps you learn the algorithm
+**When to use WFG:**
+- All resources have exactly 1 instance
+- Simpler, faster (O(n²))
+- Only correct for single-instance
+
+**Note:** Tool auto-selects for you!
+
+### 5. Read the Trace
+
+- Don't just look at final result
+- Read step-by-step trace
+- Understand *why* deadlock was detected
+- Helps learn the algorithm
+
+### 6. Experiment!
+
+**Try these experiments:**
+- Change one allocation and re-run
+- Increase a request and see effect
+- Add more processes/resources
+- Break a deadlock by freeing resources
 
 ---
 
 ## Troubleshooting
 
-### "Resource conservation violated"
+### Error: "Resource conservation violated"
 
 **Problem:** Total resources don't match allocated + available
 
 **Solution:**
-- Check your allocation matrix
-- Make sure total instances = available + all allocations
-- Adjust either total instances or allocations
+```
+Check: Available[j] + Σ Allocation[i][j] == Total[j]
+```
+- Verify allocation matrix values
+- Adjust total instances or allocations
 
-### "No cycles detected but system seems wrong"
+### Error: "Invalid request"
 
-**Problem:** Using WFG on multi-instance resources
-
-**Solution:**
-- Switch to Matrix-Based Detection
-- WFG only works correctly for single-instance resources
-
-### "Process cannot finish" but should be able to
-
-**Problem:** Request > Available
+**Problem:** Request contains negative numbers or non-integers
 
 **Solution:**
-- Check your Request matrix
-- A process requests more than what's available
-- This is valid (it's waiting), but means it cannot finish yet
+- All values must be ≥ 0
+- Only whole numbers allowed
+- Check for typos
 
-### Visualization not showing
+### Visualization shows nothing
 
-**Problem:** Need to run detection first
+**Problem:** Haven't run detection yet
 
 **Solution:**
 - Go to Input tab
 - Click "Analyze for Deadlock"
 - Then view Visualization tab
 
+### Results show wrong algorithm
+
+**Problem:** Tool selected algorithm you didn't expect
+
+**Solution:**
+- Algorithm is auto-selected based on resource instances
+- If any resource has >1 instance → Matrix
+- If all have 1 instance → WFG
+- This ensures correct results
+
+### JSON import fails
+
+**Problem:** File format incorrect
+
+**Solution:**
+- Check examples in `test-data/` folder
+- Ensure all required fields present
+- Validate JSON syntax (use jsonlint.com)
+
+### Graph looks messy
+
+**Problem:** Too many processes/resources
+
+**Solution:**
+- Visualization works best with ≤10 nodes
+- Try zooming out in browser
+- Or use smaller sample scenarios
+
+---
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **Tab** | Navigate between input cells |
+| **Enter** | Confirm cell edit |
+| **Esc** | Cancel cell edit |
+| **Ctrl+I** | Focus Import button |
+| **Ctrl+E** | Focus Export button |
+
 ---
 
 ## Next Steps
 
-1. **Try all samples** - See different deadlock scenarios
-2. **Create your own** - Start with a sample and modify it
-3. **Read the algorithm guide** - Understand the math behind it
-4. **Experiment** - What happens if you change one allocation?
+Now that you understand the tool:
+
+1. **Practice:** Try all sample datasets
+2. **Experiment:** Create custom scenarios
+3. **Learn:** Read algorithm traces carefully
+4. **Study:** Review Operating Systems textbooks
+5. **Share:** Export and share interesting scenarios
 
 ---
 
-## Need More Help?
+## Additional Resources
 
-- Check **ALGORITHM_GUIDE.md** for technical details
-- Check **DEVELOPER_GUIDE.md** if you want to modify the code
-- Review operating systems textbooks for theory
+- **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** - Technical implementation details
+- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Project overview
+- **Textbook:** *Operating System Concepts* by Silberschatz et al.
+
+---
+
+## Feedback
+
+Found a bug? Have a suggestion? Open an issue on GitHub!
 
 ---
 
