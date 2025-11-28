@@ -531,3 +531,41 @@ export function importFromJSON(jsonString) {
   const data = JSON.parse(jsonString);
   return jsonToSystemState(data);
 }
+
+/**
+ * Local Storage helpers for quick persistence
+ */
+const LS_KEY = 'deadlock_detective_system_state';
+
+export function saveStateToLocalStorage(state) {
+  try {
+    const payload = systemStateToJSON(state);
+    localStorage.setItem(LS_KEY, JSON.stringify(payload));
+    return true;
+  } catch (e) {
+    console.warn('Failed to save state:', e);
+    return false;
+  }
+}
+
+export function loadStateFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return jsonToSystemState(parsed);
+  } catch (e) {
+    console.warn('Failed to load state:', e);
+    return null;
+  }
+}
+
+export function clearStateFromLocalStorage() {
+  try {
+    localStorage.removeItem(LS_KEY);
+    return true;
+  } catch (e) {
+    console.warn('Failed to clear state:', e);
+    return false;
+  }
+}
