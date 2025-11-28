@@ -233,3 +233,80 @@
     font-size: 0.8125rem;
   }
 }
+
+/* Create Problem Card */
+.create-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.grid-col label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.grid-section h4 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  color: var(--accent-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  min-width: 2.25rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.instances-input {
+  max-width: 120px;
+}
+
+@media (max-width: 768px) {
+  .grid-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Section actions (inline buttons) */
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.section-actions .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

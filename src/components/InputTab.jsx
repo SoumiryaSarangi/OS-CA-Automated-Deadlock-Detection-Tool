@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { SAMPLES } from '../utils/samples';
-import { exportToJSON, importFromJSON } from '../utils/samples';
+import { exportToJSON, importFromJSON, saveStateToLocalStorage, loadStateFromLocalStorage, clearStateFromLocalStorage } from '../utils/samples';
 import './InputTab.css';
+import CreateProblemCard from './CreateProblemCard';
 
 export default function InputTab({
   systemState,
@@ -70,6 +71,31 @@ export default function InputTab({
     input.click();
   };
 
+  const handleSaveLocal = () => {
+    const ok = saveStateToLocalStorage(systemState);
+    if (ok) {
+      gsap.from(containerRef.current, { opacity: 0.6, duration: 0.2 });
+    }
+  };
+
+  const handleLoadLocal = () => {
+    try {
+      const state = loadStateFromLocalStorage();
+      if (state) {
+        setSystemState(state);
+        setCurrentSample(null);
+      } else {
+        alert('No saved configuration found');
+      }
+    } catch (e) {
+      alert('Failed to load saved configuration');
+    }
+  };
+
+  const handleClearLocal = () => {
+    clearStateFromLocalStorage();
+  };
+
   const updateAllocation = (pid, rid, value) => {
     const numValue = parseInt(value) || 0;
     if (numValue < 0) return;
@@ -128,6 +154,63 @@ export default function InputTab({
     });
   };
 
+  // Quick structure editing
+  const addProcess = () => {
+    const n = systemState.processes.length;
+    const m = systemState.resource_types.length;
+
+    const newProcesses = [...systemState.processes, { pid: n, name: `P${n}` }];
+    const newAllocation = [...systemState.allocation, Array(m).fill(0)];
+    const newRequest = [...systemState.request, Array(m).fill(0)];
+
+    setSystemState({
+      ...systemState,
+      processes: newProcesses,
+      allocation: newAllocation,
+      request: newRequest,
+    });
+  };
+
+  const removeLastProcess = () => {
+    const n = systemState.processes.length;
+    if (n <= 1) return;
+    setSystemState({
+      ...systemState,
+      processes: systemState.processes.slice(0, -1),
+      allocation: systemState.allocation.slice(0, -1),
+      request: systemState.request.slice(0, -1),
+    });
+  };
+
+  const addResource = () => {
+    const m = systemState.resource_types.length;
+    const newResource = { rid: m, name: `R${m}`, instances: 1 };
+    const newResourceTypes = [...systemState.resource_types, newResource];
+    const newAvailable = [...systemState.available, 1];
+    const newAllocation = systemState.allocation.map((row) => [...row, 0]);
+    const newRequest = systemState.request.map((row) => [...row, 0]);
+
+    setSystemState({
+      ...systemState,
+      resource_types: newResourceTypes,
+      available: newAvailable,
+      allocation: newAllocation,
+      request: newRequest,
+    });
+  };
+
+  const removeLastResource = () => {
+    const m = systemState.resource_types.length;
+    if (m <= 1) return;
+    setSystemState({
+      ...systemState,
+      resource_types: systemState.resource_types.slice(0, -1),
+      available: systemState.available.slice(0, -1),
+      allocation: systemState.allocation.map((row) => row.slice(0, -1)),
+      request: systemState.request.map((row) => row.slice(0, -1)),
+    });
+  };
+
   return (
     <div ref={containerRef} className="input-tab">
       <div className="input-header">
@@ -142,8 +225,23 @@ export default function InputTab({
           <button className="btn btn-secondary" onClick={handleExportJSON}>
             📤 Export JSON
           </button>
+          <button className="btn btn-secondary" onClick={handleSaveLocal}>
+            💾 Save Locally
+          </button>
+          <button className="btn btn-secondary" onClick={handleLoadLocal}>
+            📂 Load Saved
+          </button>
+          <button className="btn btn-secondary" onClick={handleClearLocal}>
+            🗑️ Clear Saved
+          </button>
         </div>
       </div>
+
+      {/* New: Create Problem from Scratch */}
+      <CreateProblemCard
+        setSystemState={setSystemState}
+        onCreated={() => setCurrentSample(null)}
+      />
 
       <div className="section card">
         <h3>Load Sample Dataset</h3>
