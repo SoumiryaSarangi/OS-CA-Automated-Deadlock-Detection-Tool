@@ -25,6 +25,12 @@ export default function InputTab({
   }, []);
 
   const handleLoadSample = (sampleName) => {
+    // If clicking the same sample, deselect it
+    if (currentSample === sampleName) {
+      setCurrentSample(null);
+      return;
+    }
+    
     const sample = SAMPLES[sampleName];
     if (sample) {
       setSystemState(sample);

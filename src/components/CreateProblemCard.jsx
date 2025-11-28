@@ -177,9 +177,12 @@ export default function CreateProblemCard({ setSystemState, onCreated }) {
         <button
           className="btn btn-secondary"
           onClick={() => {
-            setProcessNames(Array.from({ length: numProcesses }, (_, i) => `P${i}`));
-            setResourceNames(Array.from({ length: numResources }, (_, i) => `R${i}`));
-            setInstances(Array.from({ length: numResources }, () => 1));
+            // Reset to default values
+            setNumProcesses(3);
+            setNumResources(3);
+            setProcessNames(['P0', 'P1', 'P2']);
+            setResourceNames(['R0', 'R1', 'R2']);
+            setInstances([1, 1, 1]);
             setError('');
           }}
         >

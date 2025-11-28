@@ -1,24 +1,24 @@
 :root {
-  /* Color Palette - Modern & Vibrant */
-  --bg-primary: #0f0f23;
-  --bg-secondary: #16213e;
-  --bg-tertiary: #1a2744;
-  --bg-hover: #243b55;
-  --bg-card: rgba(22, 33, 62, 0.6);
+  /* Color Palette - Modern Dark with Teal Accents */
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #151b2d;
+  --bg-tertiary: #1e2740;
+  --bg-hover: #283650;
+  --bg-card: rgba(30, 39, 64, 0.6);
   
   --text-primary: #f8f9fa;
   --text-secondary: #adb5bd;
   --text-muted: #6c757d;
   
-  --accent-primary: #4dabf7;
-  --accent-hover: #339af0;
-  --accent-danger: #ff6b6b;
-  --accent-success: #51cf66;
-  --accent-warning: #ffd43b;
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --accent-danger: #ef4444;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
   
   --border-color: #2d3e5f;
   --border-hover: #3a5276;
-  --border-accent: #4dabf7;
+  --border-accent: #10b981;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -29,7 +29,7 @@
   --spacing-2xl: 3rem;
   
   /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;

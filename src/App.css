@@ -2,13 +2,13 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #0a0e1a 0%, #151b2d 100%);
 }
 
 .nav-tabs {
   display: flex;
   gap: 0;
-  background: rgba(20, 20, 20, 0.95);
+  background: rgba(21, 27, 45, 0.95);
   border-bottom: 2px solid var(--border-color);
   padding: 0 var(--spacing-lg);
   position: sticky;
