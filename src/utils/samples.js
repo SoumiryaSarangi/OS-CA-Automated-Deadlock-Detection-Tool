@@ -494,26 +494,32 @@ export const SAMPLE_SEQUENTIAL_SAFE = {
 };
 
 /**
- * All sample datasets
+ * All sample datasets - Organized from Easy to Complex
  */
 export const SAMPLES = {
-  // Deadlock scenarios
-  'Circular Deadlock (Single-Instance)': SAMPLE_DEADLOCK_CIRCULAR,
+  // ===== EASY: Basic Safe States =====
+  'No Requests (Trivial Safe)': SAMPLE_NO_REQUESTS,
+  'Simple Safe State': SAMPLE_SIMPLE_SAFE,
+  'Safe State': SAMPLE_SAFE_STATE,
+  
+  // ===== EASY-MEDIUM: Simple Deadlocks =====
   'Two Process Deadlock (Single-Instance)': SAMPLE_TWO_PROCESS_DEADLOCK,
+  'Circular Deadlock (Single-Instance)': SAMPLE_DEADLOCK_CIRCULAR,
+  
+  // ===== MEDIUM: More Complex Scenarios =====
+  'Single-Instance Safe': SAMPLE_SINGLE_INSTANCE_SAFE,
+  'Sequential Safe (Single-Instance)': SAMPLE_SEQUENTIAL_SAFE,
   'Chain Deadlock (Single-Instance)': SAMPLE_CHAIN_DEADLOCK,
   'Database Lock Deadlock (Single-Instance)': SAMPLE_DATABASE_DEADLOCK,
-  'Dining Philosophers (Deadlock)': SAMPLE_DINING_PHILOSOPHERS,
+  
+  // ===== MEDIUM-HARD: Multi-Instance Resources =====
+  'Banker\'s Algorithm (Safe)': SAMPLE_BANKERS_SAFE,
   'Multi-Instance Deadlock': SAMPLE_MULTI_INSTANCE_DEADLOCK,
   'Partial Deadlock': SAMPLE_PARTIAL_DEADLOCK,
   
-  // Safe state scenarios
-  'Safe State': SAMPLE_SAFE_STATE,
-  'Simple Safe State': SAMPLE_SIMPLE_SAFE,
-  'Single-Instance Safe': SAMPLE_SINGLE_INSTANCE_SAFE,
-  'Sequential Safe (Single-Instance)': SAMPLE_SEQUENTIAL_SAFE,
-  'No Requests (Trivial Safe)': SAMPLE_NO_REQUESTS,
-  'Banker\'s Algorithm (Safe)': SAMPLE_BANKERS_SAFE,
+  // ===== HARD: Complex & Unique Cases =====
   'Complex Safe State': SAMPLE_COMPLEX_SAFE,
+  'Dining Philosophers (Deadlock)': SAMPLE_DINING_PHILOSOPHERS,
   'Large System (Safe)': SAMPLE_LARGE_SAFE,
 };
 
