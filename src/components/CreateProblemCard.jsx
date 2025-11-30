@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { validateSystemState } from '../types/models';
+import { validateSystemState, createEmptySystemState } from '../types/models';
 
 export default function CreateProblemCard({ setSystemState, onCreated }) {
   const [numProcesses, setNumProcesses] = useState(3);
@@ -184,6 +184,9 @@ export default function CreateProblemCard({ setSystemState, onCreated }) {
             setResourceNames(['R0', 'R1', 'R2']);
             setInstances([1, 1, 1]);
             setError('');
+            // Reset system state to default
+            setSystemState(createEmptySystemState());
+            if (onCreated) onCreated();
           }}
         >
           ♻️ Reset Fields

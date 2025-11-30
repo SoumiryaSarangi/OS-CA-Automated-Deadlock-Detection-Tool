@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { SAMPLES } from '../utils/samples';
 import { exportToJSON, importFromJSON, saveStateToLocalStorage, loadStateFromLocalStorage, clearStateFromLocalStorage } from '../utils/samples';
+import { createEmptySystemState } from '../types/models';
 import './InputTab.css';
 import CreateProblemCard from './CreateProblemCard';
 import AnimatedFolders from './AnimatedFolders';
@@ -28,9 +29,10 @@ export default function InputTab({
   }, []);
 
   const handleLoadSample = (sampleName) => {
-    // If clicking the same sample, deselect it
+    // If clicking the same sample, deselect it and reset to default state
     if (currentSample === sampleName) {
       setCurrentSample(null);
+      setSystemState(createEmptySystemState());
       return;
     }
     
@@ -267,14 +269,6 @@ export default function InputTab({
               {name}
             </button>
           ))}
-        </div>
-        <div style={{ marginTop: '1rem' }}>
-          <button 
-            className="btn btn-secondary" 
-            onClick={() => setCurrentSample(null)}
-          >
-            ♻️ Reset Fields
-          </button>
         </div>
       </div>
 
