@@ -20,11 +20,12 @@ const AnimatedCheckCheck = ({
   height = 28,
   strokeWidth = 2,
   stroke = "#ffffff",
+  isHovered = false,
   ...props
 }) => {
   const controls = useAnimation();
 
-  const handleHoverStart = async () => {
+  const handleAnimation = async () => {
     await controls.start((i) => ({
       pathLength: 0,
       opacity: 0,
@@ -37,49 +38,41 @@ const AnimatedCheckCheck = ({
     }));
   };
 
-  const handleHoverEnd = () => {
-    controls.start("normal");
-  };
+  if (isHovered) {
+    handleAnimation();
+  }
 
   return (
-    <div
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       style={{
         userSelect: "none",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
       }}
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
+      {...props}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={width}
-        height={height}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <motion.path
-          d="M18 6 7 17l-5-5"
-          variants={checkVariants}
-          animate={controls}
-          initial="normal"
-          custom={0}
-        />
-        <motion.path
-          d="m22 10-7.5 7.5L13 16"
-          variants={checkVariants}
-          animate={controls}
-          initial="normal"
-          custom={1}
-        />
-      </svg>
-    </div>
+      <motion.path
+        d="M18 6 7 17l-5-5"
+        variants={checkVariants}
+        animate={controls}
+        initial="normal"
+        custom={0}
+      />
+      <motion.path
+        d="m22 10-7.5 7.5L13 16"
+        variants={checkVariants}
+        animate={controls}
+        initial="normal"
+        custom={1}
+      />
+    </svg>
   );
 };
 

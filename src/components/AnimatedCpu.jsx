@@ -10,6 +10,7 @@ const AnimatedCpu = ({
   height = 28,
   strokeWidth = 2,
   stroke = "#ffffff",
+  isHovered = false,
   ...props
 }) => {
   return (
@@ -29,50 +30,42 @@ const AnimatedCpu = ({
       <rect width="6" height="6" x="9" y="9" rx="1" />
       <motion.path
         d="M15 2v2"
-        initial={{ scaleY: 1, opacity: 1 }}
-        whileHover={{ scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleY: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M15 20v2"
-        initial={{ scaleY: 1, opacity: 1 }}
-        whileHover={{ scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleY: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M2 15h2"
-        initial={{ scaleX: 1, opacity: 1 }}
-        whileHover={{ scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleX: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M2 9h2"
-        initial={{ scaleX: 1, opacity: 1 }}
-        whileHover={{ scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleX: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M20 15h2"
-        initial={{ scaleX: 1, opacity: 1 }}
-        whileHover={{ scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleX: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M20 9h2"
-        initial={{ scaleX: 1, opacity: 1 }}
-        whileHover={{ scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleX: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleX: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M9 2v2"
-        initial={{ scaleY: 1, opacity: 1 }}
-        whileHover={{ scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleY: 1, opacity: 1 }}
         transition={transition}
       />
       <motion.path
         d="M9 20v2"
-        initial={{ scaleY: 1, opacity: 1 }}
-        whileHover={{ scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] }}
+        animate={isHovered ? { scaleY: [1, 1.5, 1], opacity: [1, 0.8, 1] } : { scaleY: 1, opacity: 1 }}
         transition={transition}
       />
     </svg>

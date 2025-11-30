@@ -20,6 +20,7 @@ function App() {
   const [systemState, setSystemState] = useState(createEmptySystemState());
   const [detectionResult, setDetectionResult] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [hoveredTab, setHoveredTab] = useState(null);
   
   const mainRef = useRef(null);
 
@@ -91,24 +92,30 @@ function App() {
         <button
           className={`nav-tab ${currentTab === 'input' ? 'active' : ''}`}
           onClick={() => handleTabChange('input')}
+          onMouseEnter={() => setHoveredTab('input')}
+          onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedCpu width={24} height={24} strokeWidth={2} stroke={currentTab === 'input' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
+          <AnimatedCpu width={24} height={24} strokeWidth={2} stroke={currentTab === 'input' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'input'} />
           Input
         </button>
         <button
           className={`nav-tab ${currentTab === 'visualization' ? 'active' : ''}`}
           onClick={() => handleTabChange('visualization')}
           disabled={!detectionResult}
+          onMouseEnter={() => setHoveredTab('visualization')}
+          onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedChartLine width={24} height={24} strokeWidth={2} stroke={currentTab === 'visualization' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
+          <AnimatedChartLine width={24} height={24} strokeWidth={2} stroke={currentTab === 'visualization' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'visualization'} />
           Visualization
         </button>
         <button
           className={`nav-tab ${currentTab === 'results' ? 'active' : ''}`}
           onClick={() => handleTabChange('results')}
           disabled={!detectionResult}
+          onMouseEnter={() => setHoveredTab('results')}
+          onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedCheckCheck width={24} height={24} strokeWidth={2} stroke={currentTab === 'results' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
+          <AnimatedCheckCheck width={24} height={24} strokeWidth={2} stroke={currentTab === 'results' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'results'} />
           Results
         </button>
       </nav>

@@ -268,6 +268,14 @@ export default function InputTab({
             </button>
           ))}
         </div>
+        <div style={{ marginTop: '1rem' }}>
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => setCurrentSample(null)}
+          >
+            ♻️ Reset Fields
+          </button>
+        </div>
       </div>
 
       <div className="section card">
