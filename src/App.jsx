@@ -8,6 +8,8 @@ import InputTab from './components/InputTab';
 import VisualizationTab from './components/VisualizationTab';
 import ResultsTab from './components/ResultsTab';
 import Header from './components/Header';
+import AnimatedCpu from './components/AnimatedCpu';
+import AnimatedChartLine from './components/AnimatedChartLine';
 import './App.css';
 
 // meowww
@@ -16,8 +18,14 @@ function App() {
   const [currentTab, setCurrentTab] = useState('input');
   const [systemState, setSystemState] = useState(createEmptySystemState());
   const [detectionResult, setDetectionResult] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   
   const mainRef = useRef(null);
+
+  useEffect(() => {
+    // Apply theme to body
+    document.body.className = isDarkMode ? 'dark-theme' : 'light-theme';
+  }, [isDarkMode]);
 
   useEffect(() => {
     // Animate page load
@@ -75,15 +83,15 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <Header />
+    <div className="App">
+      <Header isDarkMode={isDarkMode} toggleTheme={() => setIsDarkMode(!isDarkMode)} />
       
       <nav className="nav-tabs">
         <button
           className={`nav-tab ${currentTab === 'input' ? 'active' : ''}`}
           onClick={() => handleTabChange('input')}
         >
-          <span className="tab-icon">📝</span>
+          <AnimatedCpu width={24} height={24} strokeWidth={2} stroke={currentTab === 'input' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
           Input
         </button>
         <button
@@ -91,7 +99,7 @@ function App() {
           onClick={() => handleTabChange('visualization')}
           disabled={!detectionResult}
         >
-          <span className="tab-icon">📊</span>
+          <AnimatedChartLine width={24} height={24} strokeWidth={2} stroke={currentTab === 'visualization' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
           Visualization
         </button>
         <button

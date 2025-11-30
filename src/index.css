@@ -1,24 +1,29 @@
 :root {
-  /* Color Palette - Modern Dark with Teal Accents */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #151b2d;
-  --bg-tertiary: #1e2740;
-  --bg-hover: #283650;
-  --bg-card: rgba(30, 39, 64, 0.6);
+  /* Color Palette - Custom Purple/Pink Theme */
+  --color-1: #e966a0;
+  --color-2: #2b2730;
+  --color-3: #6554af;
+  --color-4: #9575de;
+  
+  --bg-primary: #1a1520;
+  --bg-secondary: #2b2730;
+  --bg-tertiary: #3a3340;
+  --bg-hover: #4a4350;
+  --bg-card: rgba(43, 39, 48, 0.7);
   
   --text-primary: #f8f9fa;
-  --text-secondary: #adb5bd;
-  --text-muted: #6c757d;
+  --text-secondary: #c9c3d6;
+  --text-muted: #9c94ab;
   
-  --accent-primary: #10b981;
-  --accent-hover: #059669;
+  --accent-primary: #e966a0;
+  --accent-hover: #f081b5;
   --accent-danger: #ef4444;
-  --accent-success: #10b981;
-  --accent-warning: #f59e0b;
+  --accent-success: #9575de;
+  --accent-warning: #e966a0;
   
-  --border-color: #2d3e5f;
-  --border-hover: #3a5276;
-  --border-accent: #10b981;
+  --border-color: #3a3340;
+  --border-hover: #6554af;
+  --border-accent: #e966a0;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -70,12 +75,41 @@ html {
 body {
   font-family: var(--font-sans);
   color: var(--text-primary);
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  background: linear-gradient(135deg, #1a1520 0%, #2b2730 50%, #3a3340 100%);
   background-attachment: fixed;
   line-height: 1.6;
   overflow-x: hidden;
   margin: 0;
   min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Light Theme */
+body.light-theme {
+  --color-1: #e966a0;
+  --color-2: #f5f3f7;
+  --color-3: #6554af;
+  --color-4: #9575de;
+  
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f3f7;
+  --bg-tertiary: #ebe8f0;
+  --bg-hover: #ddd8e6;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  
+  --text-primary: #2b2730;
+  --text-secondary: #4a4350;
+  --text-muted: #7a7080;
+  
+  --border-color: #ddd8e6;
+  --border-hover: #9575de;
+  --border-accent: #e966a0;
+  
+  --accent-primary: #e966a0;
+  --accent-hover: #d64888;
+  --accent-success: #6554af;
+  
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3f7 50%, #ebe8f0 100%);
 }
 
 #root {

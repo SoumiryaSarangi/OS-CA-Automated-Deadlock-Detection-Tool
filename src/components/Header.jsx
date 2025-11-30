@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import './Header.css';
 
-export default function Header() {
+export default function Header({ isDarkMode, toggleTheme }) {
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +24,16 @@ export default function Header() {
             <h1 className="logo-text">Deadlock Detective</h1>
           </div>
           <p className="tagline">Automated Deadlock Detection & Analysis</p>
+        </div>
+        <div className="header-right">
+          <button 
+            onClick={toggleTheme} 
+            className="theme-toggle"
+            aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+          >
+            <span className="theme-icon">{isDarkMode ? '☀️' : '🌙'}</span>
+            <span className="theme-text">{isDarkMode ? 'Light' : 'Dark'}</span>
+          </button>
         </div>
       </div>
     </header>
