@@ -10,6 +10,7 @@ import ResultsTab from './components/ResultsTab';
 import Header from './components/Header';
 import AnimatedCpu from './components/AnimatedCpu';
 import AnimatedChartLine from './components/AnimatedChartLine';
+import AnimatedCheckCheck from './components/AnimatedCheckCheck';
 import './App.css';
 
 // meowww
@@ -107,7 +108,7 @@ function App() {
           onClick={() => handleTabChange('results')}
           disabled={!detectionResult}
         >
-          <span className="tab-icon">📋</span>
+          <AnimatedCheckCheck width={24} height={24} strokeWidth={2} stroke={currentTab === 'results' ? 'var(--accent-primary)' : 'var(--text-secondary)'} />
           Results
         </button>
       </nav>

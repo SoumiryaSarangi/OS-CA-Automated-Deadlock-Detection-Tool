@@ -4,6 +4,9 @@ import { SAMPLES } from '../utils/samples';
 import { exportToJSON, importFromJSON, saveStateToLocalStorage, loadStateFromLocalStorage, clearStateFromLocalStorage } from '../utils/samples';
 import './InputTab.css';
 import CreateProblemCard from './CreateProblemCard';
+import AnimatedFolders from './AnimatedFolders';
+import AnimatedCloudDownload from './AnimatedCloudDownload';
+import AnimatedDelete from './AnimatedDelete';
 
 export default function InputTab({
   systemState,
@@ -232,13 +235,16 @@ export default function InputTab({
             📤 Export JSON
           </button>
           <button className="btn btn-secondary" onClick={handleSaveLocal}>
-            💾 Save Locally
+            <AnimatedCloudDownload width={20} height={20} strokeWidth={2} stroke="currentColor" />
+            Save Locally
           </button>
           <button className="btn btn-secondary" onClick={handleLoadLocal}>
-            📂 Load Saved
+            <AnimatedFolders width={20} height={20} strokeWidth={2} stroke="currentColor" />
+            Load Saved
           </button>
           <button className="btn btn-secondary" onClick={handleClearLocal}>
-            🗑️ Clear Saved
+            <AnimatedDelete width={20} height={20} strokeWidth={2} stroke="currentColor" />
+            Clear Saved
           </button>
         </div>
       </div>
