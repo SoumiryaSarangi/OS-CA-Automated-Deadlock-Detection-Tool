@@ -426,20 +426,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎨 Icon System (Optional)
-
-**Deadlock Detective** includes a semantic icon system for enhanced visualization clarity:
-
-- **Icon Packs**: Lucide (workflows), Phosphor (states), Tabler (resources), Heroicons (navigation), Radix (tooltips)
-- **Usage**: `import { getIcon } from './updates/iconRegistry'; const Icon = getIcon('deadlockProcess'); <Icon size={32} />`
-- **Legend**: `import IconLegend from './updates/IconLegend.jsx'; <IconLegend compact />`
-- **Semantic Names**: `deadlockProcess`, `safeProcess`, `resourceNode`, `cycleDetected`, `recoveryStrategy`, `waitingState`, etc.
-- **Auto-Color**: Icons derive theme-aware colors based on semantic naming (deadlock=red, safe=blue, resource=purple)
-- **Accessibility**: Supports `title` prop for screen readers, `aria-hidden` for decorative icons
-- **Opt-in**: Icon system does NOT alter existing components—integrate manually where desired
-
----
-
 ## 📞 Contact
 
 - **Repository**: [https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool)
