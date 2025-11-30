@@ -1,0 +1,14 @@
+﻿__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+.DS_Store
+Thumbs.db
+!example_deadlock.json
