@@ -7,6 +7,10 @@ A modern, interactive web application for detecting and visualizing deadlocks in
 [![React](https://img.shields.io/badge/React-19.2-blue)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2-646CFF)](https://vitejs.dev/)
 [![D3.js](https://img.shields.io/badge/D3.js-7.9-F9A03C)](https://d3js.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+> Modern web-based deadlock detection tool for Operating Systems. Implements Matrix-Based and Wait-For Graph algorithms with interactive D3.js visualization, theme switching, and educational step-by-step traces.
 
 ---
 
@@ -383,6 +387,12 @@ npm run build
 **Quick References:**
 - **[QUICK_START.md](QUICK_START.md)** - Get running in 5 minutes
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Alternative user guide
+
+**Community Standards:**
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute
+- **[SECURITY.md](SECURITY.md)** - Security policy
+- **[LICENSE](LICENSE)** - MIT License
 
 ---
 
