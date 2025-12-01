@@ -95,7 +95,7 @@ function App() {
           onMouseEnter={() => setHoveredTab('input')}
           onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedCpu width={24} height={24} strokeWidth={2} stroke={currentTab === 'input' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'input'} />
+          <AnimatedCpu width={24} height={24} strokeWidth={2} stroke="currentColor" isHovered={hoveredTab === 'input'} />
           Input
         </button>
         <button
@@ -105,7 +105,7 @@ function App() {
           onMouseEnter={() => setHoveredTab('visualization')}
           onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedChartLine width={24} height={24} strokeWidth={2} stroke={currentTab === 'visualization' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'visualization'} />
+          <AnimatedChartLine width={24} height={24} strokeWidth={2} stroke="currentColor" isHovered={hoveredTab === 'visualization'} />
           Visualization
         </button>
         <button
@@ -115,7 +115,7 @@ function App() {
           onMouseEnter={() => setHoveredTab('results')}
           onMouseLeave={() => setHoveredTab(null)}
         >
-          <AnimatedCheckCheck width={24} height={24} strokeWidth={2} stroke={currentTab === 'results' ? 'var(--accent-primary)' : 'var(--text-secondary)'} isHovered={hoveredTab === 'results'} />
+          <AnimatedCheckCheck width={24} height={24} strokeWidth={2} stroke="currentColor" isHovered={hoveredTab === 'results'} />
           Results
         </button>
       </nav>

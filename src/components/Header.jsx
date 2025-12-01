@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ThemeSwitcher } from './ThemeSwitcher';
 import './Header.css';
 
 export default function Header({ isDarkMode, toggleTheme }) {
@@ -15,25 +16,26 @@ export default function Header({ isDarkMode, toggleTheme }) {
     }
   }, []);
 
+  const handleThemeChange = (theme) => {
+    toggleTheme();
+  };
+
   return (
     <header ref={headerRef} className="header">
       <div className="header-content">
         <div className="header-left">
+          <img src="/logo_website.png" alt="Deadlock Detective Logo" className="logo-icon" />
           <div className="logo">
-            <span className="logo-icon">🔍</span>
             <h1 className="logo-text">Deadlock Detective</h1>
+            <p className="tagline">Automated Deadlock Detection & Analysis</p>
           </div>
-          <p className="tagline">Automated Deadlock Detection & Analysis</p>
         </div>
         <div className="header-right">
-          <button 
-            onClick={toggleTheme} 
-            className="theme-toggle"
-            aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-          >
-            <span className="theme-icon">{isDarkMode ? '☀️' : '🌙'}</span>
-            <span className="theme-text">{isDarkMode ? 'Light' : 'Dark'}</span>
-          </button>
+          <ThemeSwitcher 
+            value={isDarkMode ? 'dark' : 'light'}
+            onChange={handleThemeChange}
+            defaultValue={isDarkMode ? 'dark' : 'light'}
+          />
         </div>
       </div>
     </header>

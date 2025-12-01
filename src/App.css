@@ -67,6 +67,29 @@
   transform: scaleX(1);
 }
 
+/* Light theme specific styles */
+body.light-theme .nav-tab.active {
+  color: #ffffff;
+  background: var(--accent-primary);
+}
+
+body.light-theme .nav-tab.active:hover {
+  color: #ffffff;
+  background: var(--accent-primary);
+}
+
+body.light-theme .nav-tab.active::before {
+  background: #ffffff;
+}
+
+body.light-theme .nav-tab:not(.active) {
+  color: var(--accent-primary);
+}
+
+body.light-theme .nav-tab:hover:not(:disabled):not(.active) {
+  color: var(--accent-primary);
+}
+
 .nav-tab:disabled {
   opacity: 0.4;
   cursor: not-allowed;
