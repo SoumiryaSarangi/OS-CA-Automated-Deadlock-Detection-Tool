@@ -11,13 +11,17 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@types/d3": "^7.4.3",
+    "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "feather-icons-react": "^1.0.0",
     "gsap": "^3.13.0",
+    "lucide-react": "^0.555.0",
     "motion": "^12.23.24",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
