@@ -89,6 +89,14 @@ This web application:
 - ✅ JSON import/export for sharing scenarios
 - ✅ GSAP-powered smooth animations (60fps)
 
+### 📄 **Professional Export & Reporting**
+
+- ✅ **PDF Reports** - Professional documentation with graphs, traces, and recommendations
+- ✅ **LaTeX Output** - Academic format with mathematical notation for papers
+- ✅ **JSON Export** - Raw structured data for programmatic access
+- ✅ Real-world applicability with publication-ready output
+- ✅ One-click export from Results tab
+
 ---
 
 ## 🚀 Quick Start
@@ -343,6 +351,8 @@ npm run build
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Complete user manual with examples
 - **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** - Technical documentation for developers
 - **[QUICK_START.md](QUICK_START.md)** - Fast setup guide
+- **[EXPORT_FEATURES.md](EXPORT_FEATURES.md)** - 📄 Export & reporting documentation
+- **[EXPORT_QUICK_START.md](EXPORT_QUICK_START.md)** - 🚀 Quick guide to exporting reports
 - **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Project overview and achievements
 - **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project plan
 

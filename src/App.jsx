@@ -139,7 +139,10 @@ function App() {
             />
           )}
           {currentTab === 'results' && detectionResult && (
-            <ResultsTab detectionResult={detectionResult} />
+            <ResultsTab 
+              systemState={systemState}
+              detectionResult={detectionResult} 
+            />
           )}
         </div>
       </main>

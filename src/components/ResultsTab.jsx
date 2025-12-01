@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import ExportButton from './ExportButton';
 import './ResultsTab.css';
 
-export default function ResultsTab({ detectionResult }) {
+export default function ResultsTab({ systemState, detectionResult }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +37,12 @@ export default function ResultsTab({ detectionResult }) {
           <div className="status-meta">
             Algorithm used: <strong>{algorithm === 'wfg' ? 'Wait-For Graph' : 'Matrix-Based Detection'}</strong>
           </div>
+        </div>
+        <div className="status-actions">
+          <ExportButton 
+            systemState={systemState}
+            detectionResult={detectionResult}
+          />
         </div>
       </div>
 
