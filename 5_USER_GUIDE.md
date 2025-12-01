@@ -26,17 +26,24 @@ Click the **🔍 Analyze for Deadlock** button
 
 ### 🖥️ Understanding the Interface
 
-When you open the app in your browser, you see **3 tabs**:
+When you open the app in your browser, you see:
 
 ```
-┌────────────────────────────────────────┐
-│  📝 Input  │  📊 Visualization  │  📋 Results  │
-├────────────────────────────────────────┤
-│                                        │
-│         Main Content Area              │
-│                                        │
-└────────────────────────────────────────┘
+┌──────────────────────────────────────────────────┐
+│  Header: Deadlock Detective    🌓/☀️ (Theme Toggle)  │
+├──────────────────────────────────────────────────┤
+│  💻 Input  │  📊 Visualization  │  ✅ Results    │
+├──────────────────────────────────────────────────┤
+│                                                  │
+│         Main Content Area with Animations       │
+│                                                  │
+└──────────────────────────────────────────────────┘
 ```
+
+**Header Features:**
+- **App Title** - "Deadlock Detective" with logo
+- **🌓/☀️ Theme Toggle** - Switch between Dark and Light modes
+- **Smooth animations** on page load
 
 #### Tab 1: Input
 
@@ -384,6 +391,65 @@ P1 holds R1, wants R0 (held by P0)
 - After creating a custom problem
 - After editing any matrices
 - Anytime you want to check for deadlock
+
+---
+
+## 🌌 Theme Switcher - Personalize Your Experience
+
+### Switching Themes
+
+**Location:** Top-right corner of the header
+
+**How to use:**
+1. Look for the theme toggle button (pill-shaped)
+2. Click the **Sun icon** (☀️) for Light mode
+3. Click the **Moon icon** (🌓) for Dark mode
+4. Watch the smooth transition animation!
+
+**Features:**
+- **Persistent** - Your choice is remembered
+- **Smooth animations** - No jarring color changes
+- **Animated indicator** - Slides between options
+- **Backdrop blur** - Modern glass-morphism effect
+
+**Theme Comparison:**
+
+| Feature | Dark Mode 🌓 | Light Mode ☀️ |
+|---------|------------|-------------|
+| Background | Dark gray/black | White/light gray |
+| Text | Light colors | Dark colors |
+| Best for | Night use, reduced eye strain | Daytime, bright environments |
+| Default | Yes | No |
+
+**Tips:**
+- Use **Dark mode** when working late at night
+- Use **Light mode** in bright offices or daylight
+- Theme affects all tabs and components
+
+---
+
+## 🎨 Animated Icons - Interactive Navigation
+
+### Tab Icons
+
+Each tab has a unique animated icon:
+
+**💻 Input Tab (CPU Icon):**
+- Animates when you hover over it
+- Represents processing and data entry
+
+**📊 Visualization Tab (Chart Icon):**
+- Animates to show data visualization
+- Becomes active after analysis
+
+**✅ Results Tab (Check Icon):**
+- Animates when results are ready
+- Indicates completion status
+
+**Hover Effects:**
+- Icons pulse or animate on mouse hover
+- Active tab has highlighted icon
+- Disabled tabs are grayed out
 
 ---
 
@@ -951,11 +1017,12 @@ Starting with "Multi-Instance Deadlock":
 ## 🎉 Summary
 
 **Key Steps:**
-1. **Load or Create** a problem
-2. **Edit** allocation and request matrices
-3. **Analyze** for deadlock
-4. **View** results and visualization
-5. **Understand** recovery strategies
+1. **Choose your theme** (🌓 Dark or ☀️ Light)
+2. **Load or Create** a problem
+3. **Edit** allocation and request matrices
+4. **Analyze** for deadlock
+5. **View** results and visualization
+6. **Understand** recovery strategies
 
 **Remember:**
 - Single-instance → WFG algorithm (cycles)
@@ -964,6 +1031,8 @@ Starting with "Multi-Instance Deadlock":
 - Blue nodes = Safe
 - Green arrows = Allocation
 - Yellow arrows = Request
+- Animated icons show tab status
+- Theme switcher for comfortable viewing
 
 **Happy Deadlock Detecting! 🔍**
 

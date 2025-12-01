@@ -65,6 +65,20 @@ This web application:
 - Displays cycle detection process (WFG algorithm)
 - Detailed explanations for learning
 
+### 🌌 **Theme Customization**
+
+- **Dark/Light mode toggle** - Comfortable viewing in any environment
+- **Smooth theme transitions** - Animated color changes
+- **Persistent preference** - Remembers your choice
+- **Modern UI** - Glass-morphism effects and gradients
+
+### 🎬 **Animated Interface**
+
+- **GSAP-powered animations** - Smooth 60fps transitions
+- **Animated tab icons** - Interactive CPU, Chart, and Check icons
+- **Hover effects** - Responsive visual feedback
+- **Page load animations** - Elegant fade-in effects
+
 ### 🔧 **Smart Recovery Strategies**
 
 - **Process Termination**: Minimal sets to break deadlock
@@ -84,10 +98,12 @@ This web application:
 
 - ✅ No installation required - runs in any modern browser
 - ✅ Responsive design (desktop, tablet, mobile)
-- ✅ Dark theme with clean, minimal aesthetics
+- ✅ **Dark/Light theme switcher** - Choose your preference
+- ✅ **Animated icons** - Interactive tab navigation
 - ✅ Editable allocation and request matrices
 - ✅ JSON import/export for sharing scenarios
 - ✅ GSAP-powered smooth animations (60fps)
+- ✅ Browser localStorage - Save your work locally
 
 ---
 
@@ -333,18 +349,26 @@ npm run build
 | **Vite** | Build tool & dev server | 7.2.4 |
 | **D3.js** | Graph visualization | 7.9.0 |
 | **GSAP** | Animations | 3.13.0 |
+| **Motion** | React animations | 12.23.24 |
+| **Lucide React** | Icon library | 0.555.0 |
+| **Radix UI** | Headless UI components | Latest |
 | **JavaScript (ES6+)** | Programming language | Latest |
-| **CSS3** | Styling | Latest |
+| **CSS3** | Styling with custom properties | Latest |
 
 ---
 
 ## 📚 Documentation
 
-- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete user manual with examples
-- **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** - Technical documentation for developers
-- **[QUICK_START.md](QUICK_START.md)** - Fast setup guide
-- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Project overview and achievements
-- **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project plan
+**Comprehensive Guides:**
+- **[1_UNDERSTANDING_DEADLOCKS.md](1_UNDERSTANDING_DEADLOCKS.md)** - Learn deadlock basics
+- **[2_PROBLEM_STATEMENT.md](2_PROBLEM_STATEMENT.md)** - Problem we're solving
+- **[3_DETECTION_ALGORITHMS.md](3_DETECTION_ALGORITHMS.md)** - Algorithm deep-dive
+- **[4_PROJECT_GUIDE.md](4_PROJECT_GUIDE.md)** - Technical implementation guide
+- **[5_USER_GUIDE.md](5_USER_GUIDE.md)** - Complete user manual
+
+**Quick References:**
+- **[QUICK_START.md](QUICK_START.md)** - Get running in 5 minutes
+- **[USER_GUIDE.md](USER_GUIDE.md)** - Alternative user guide
 
 ---
 

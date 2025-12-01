@@ -355,9 +355,10 @@ export function generateRecoverySuggestions(systemState, deadlockedProcesses)
 ### 1. **App.jsx** - Main Application
 
 **Responsibilities:**
-- Manages global state (systemState, detectionResult)
-- Handles tab switching
+- Manages global state (systemState, detectionResult, theme)
+- Handles tab switching with animations
 - Coordinates between components
+- Controls theme (dark/light mode)
 
 **Key state:**
 
@@ -365,6 +366,13 @@ export function generateRecoverySuggestions(systemState, deadlockedProcesses)
 const [currentTab, setCurrentTab] = useState('input');
 const [systemState, setSystemState] = useState(createEmptySystemState());
 const [detectionResult, setDetectionResult] = useState(null);
+const [isDarkMode, setIsDarkMode] = useState(true);
+const [hoveredTab, setHoveredTab] = useState(null);
+
+// Apply theme to body
+useEffect(() => {
+  document.body.className = isDarkMode ? 'dark-theme' : 'light-theme';
+}, [isDarkMode]);
 ```
 
 **Main function:**
@@ -530,6 +538,95 @@ useEffect(() => {
 - Display algorithm trace
 - Show safe sequence (if exists)
 - Present recovery strategies
+
+---
+
+### 6. **ThemeSwitcher.jsx** - Theme Toggle Component
+
+**What it does:** Provides dark/light mode switching with smooth animations
+
+**Features:**
+- **Smooth transitions** with Motion library
+- **Persistent state** via controllable state hook
+- **Animated toggle** with GSAP
+- **Icon indicators** (Sun for light, Moon for dark)
+
+**Key code:**
+
+```javascript
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Moon, Sun } from 'lucide-react';
+import { motion } from 'motion/react';
+
+export const ThemeSwitcher = ({ value, onChange, defaultValue = 'dark' }) => {
+  const [theme, setTheme] = useControllableState({
+    defaultProp: defaultValue,
+    prop: value,
+    onChange,
+  });
+  
+  // Renders toggle with animated background
+  return (
+    <div className="theme-switcher">
+      <button onClick={() => setTheme('light')}>
+        <Sun /> {theme === 'light' && <motion.div layoutId="activeTheme" />}
+      </button>
+      <button onClick={() => setTheme('dark')}>
+        <Moon /> {theme === 'dark' && <motion.div layoutId="activeTheme" />}
+      </button>
+    </div>
+  );
+};
+```
+
+**Usage in App.jsx:**
+```javascript
+const [isDarkMode, setIsDarkMode] = useState(true);
+
+<Header 
+  isDarkMode={isDarkMode} 
+  toggleTheme={() => setIsDarkMode(!isDarkMode)} 
+/>
+```
+
+---
+
+### 7. **Animated Icon Components** - Interactive Tab Icons
+
+**What they do:** Provide animated icons for tab navigation
+
+**Components:**
+- **AnimatedCpu.jsx** - CPU icon for Input tab
+- **AnimatedChartLine.jsx** - Chart icon for Visualization tab  
+- **AnimatedCheckCheck.jsx** - Check icon for Results tab
+- **AnimatedCloudDownload.jsx** - Cloud download icon
+- **AnimatedFolders.jsx** - Folder icon
+- **AnimatedDelete.jsx** - Delete icon
+
+**Features:**
+- **Hover animations** - Icons animate on mouse hover
+- **Custom stroke width** - Configurable line thickness
+- **Color inheritance** - Use currentColor from parent
+- **SVG-based** - Scalable and performant
+
+**Example usage:**
+```javascript
+import AnimatedCpu from './components/AnimatedCpu';
+
+<button 
+  onMouseEnter={() => setHovered(true)}
+  onMouseLeave={() => setHovered(false)}
+>
+  <AnimatedCpu 
+    width={24} 
+    height={24} 
+    strokeWidth={2} 
+    stroke="currentColor" 
+    isHovered={hovered} 
+  />
+  Input
+</button>
+```
 
 **Layout:**
 

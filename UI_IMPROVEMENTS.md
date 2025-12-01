@@ -5,11 +5,14 @@ This document summarizes the major improvements made to enhance the user interfa
 
 ## 🎨 Visual Improvements
 
-### Color Scheme
-- **Old**: Gray-based theme (#374151, #4b5563)
-- **New**: Modern blue gradient theme (#4dabf7, #16213e)
-- Enhanced contrast and readability
-- Professional, modern appearance
+### Theme System
+- **Dark Mode** (Default): Modern dark theme with blue accents
+- **Light Mode**: Clean light theme for bright environments
+- **Theme Switcher**: Animated toggle button in header
+- **Smooth Transitions**: Animated theme switching with Motion library
+- **Persistent**: Theme choice saved across sessions
+- Enhanced contrast and readability in both themes
+- Professional, modern appearance with glass-morphism effects
 
 ### Buttons
 - **Gradient Backgrounds**: Primary buttons now use beautiful blue gradients
@@ -19,10 +22,15 @@ This document summarizes the major improvements made to enhance the user interfa
 - **Depth**: Box shadows for 3D appearance
 
 ### Navigation Tabs
-- **Animated Underline**: Smooth underline animation on active tab
-- **Hover States**: Subtle background color changes
+- **Animated Icons**: Custom animated SVG icons for each tab
+  - AnimatedCpu for Input tab
+  - AnimatedChartLine for Visualization tab
+  - AnimatedCheckCheck for Results tab
+- **Hover Animations**: Icons animate on mouse hover
+- **Active State**: Highlighted tab with animated icon
 - **Gradient Backgrounds**: Glass-morphism effect with backdrop blur
 - **Better Spacing**: Increased padding for easier clicking
+- **Smooth Transitions**: GSAP-powered tab switching animations
 
 ### Tables
 - **Centered Content**: Better alignment for readability
@@ -72,9 +80,16 @@ This document summarizes the major improvements made to enhance the user interfa
 ## 🎭 Animation Enhancements
 
 ### GSAP Animations
-- Smooth page transitions
+- Smooth page load transitions (fade-in, slide-up)
+- Tab content transitions (fade-in, slide-right)
 - Staggered element animations
 - Scale and fade effects on interactions
+- 60fps smooth rendering
+
+### Motion/Framer Motion Animations
+- Theme switcher layout animations
+- Animated button states
+- Spring physics for natural motion
 
 ### CSS Animations
 - Button ripple effect (0.6s ease)
@@ -103,10 +118,46 @@ This document summarizes the major improvements made to enhance the user interfa
 - Better accessibility
 - Enhanced user experience
 
+## 🎨 New Components
+
+### ThemeSwitcher Component
+- **Location**: Header, top-right corner
+- **Features**: 
+  - Animated toggle with layout animations
+  - Sun icon for light mode
+  - Moon icon for dark mode
+  - Glass-morphism design with backdrop blur
+  - Smooth transition between themes
+- **Technology**: Radix UI, Motion, Lucide React icons
+
+### Animated Icon Components
+All custom-built animated SVG components:
+- **AnimatedCpu** - CPU icon with pulse animation
+- **AnimatedChartLine** - Chart icon with line drawing animation
+- **AnimatedCheckCheck** - Check icon with checkmark animation
+- **AnimatedCloudDownload** - Cloud icon with download animation
+- **AnimatedFolders** - Folder icon with opening animation
+- **AnimatedDelete** - Trash icon with deletion animation
+
+### Additional Utilities
+Located in `src/updates/`:
+- `dateTimeUtils.js` - Date/time formatting
+- `textProcessing.js` - Text manipulation
+- `processScheduler.js` - Process scheduling algorithms
+- `iconRegistry.js` - Icon management
+- Color, string, array utilities
+- Performance metrics tracking
+
 ## 🚀 Running the Application
 
-```powershell
-cd "c:\Users\ss\OneDrive\Desktop\OS project\deadlock-detective-react"
+```bash
+# Navigate to project directory
+cd OS-CA-Automated-Deadlock-Detection-Tool
+
+# Install dependencies (first time only)
+npm install
+
+# Start development server
 npm run dev
 ```
 
@@ -115,10 +166,14 @@ Visit: `http://localhost:5173/`
 ## 🎯 Result
 
 The UI is now:
-- ✨ **More visually appealing** with gradients and modern colors
+- ✨ **More visually appealing** with gradients, modern colors, and themes
+- 🌓 **Theme customizable** - Choose Dark or Light mode
+- 🎬 **Highly animated** - GSAP and Motion-powered smooth transitions
 - 🎨 **Better organized** with improved spacing and layout
-- ⚡ **More interactive** with hover effects and animations
+- ⚡ **More interactive** with animated icons and hover effects
 - 📱 **More accessible** with better contrast and larger touch targets
 - 🔧 **Easier to maintain** with pure JavaScript (no TypeScript complexity)
+- 💾 **Persistent** - Theme and state saved in localStorage
+- 🎮 **Engaging** - Animated tab icons and smooth page transitions
 
-All changes maintain the complete functionality of the deadlock detection system while dramatically improving the visual presentation and user experience.
+All changes maintain the complete functionality of the deadlock detection system while dramatically improving the visual presentation, user experience, and personalization options.

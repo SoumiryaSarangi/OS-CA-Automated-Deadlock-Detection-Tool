@@ -440,6 +440,22 @@ Now you understand the math! Let's see:
 
 ---
 
+## 🎨 Try It in the App!
+
+Our **Deadlock Detective** web app lets you see these algorithms in action:
+
+1. **Load Sample Data** - Pre-loaded examples for each algorithm
+2. **Watch Animations** - GSAP-powered smooth transitions
+3. **See the Trace** - Step-by-step algorithm execution
+4. **Interactive Graphs** - D3.js visualization of detection results
+5. **Theme Options** - Dark/Light mode for comfortable viewing
+
+**Quick Example:**
+- Load "Circular Deadlock" → See WFG algorithm detect the cycle
+- Load "Multi-Instance Deadlock" → See Matrix algorithm in action
+
+---
+
 **Key Takeaway:**
 
 - **Wait-For Graph:** Find cycles in who-waits-for-whom

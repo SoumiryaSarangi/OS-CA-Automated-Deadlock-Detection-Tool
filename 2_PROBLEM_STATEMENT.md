@@ -150,12 +150,20 @@ Let's summarize what we need to build:
    - Shows the calculations
 
 3. **Visual Graph:**
-   - Picture showing processes and their dependencies
+   - Interactive D3.js visualization with animated nodes
    - Red color for deadlocked processes
+   - Blue color for safe processes
+   - Smooth GSAP animations
 
 4. **Recovery Strategies:**
    - Option 1: Kill these processes
    - Option 2: Take these resources away
+
+### ✅ User Experience Features:
+1. **Theme Switcher** - Dark/Light mode for comfort
+2. **Animated Icons** - Interactive tab navigation
+3. **Responsive Design** - Works on all devices
+4. **Local Storage** - Save and load configurations
 
 ---
 
@@ -261,17 +269,19 @@ Our tool must:
 
 **Problem:** Computers can get stuck in deadlocks (processes waiting in circles)
 
-**Solution:** Build a tool that:
+**Solution:** Build a modern web application that:
 1. Takes information about processes and resources
 2. Checks if they're stuck in a circular wait
-3. Reports if there's a deadlock
+3. Reports if there's a deadlock with beautiful animations
 4. Suggests how to fix it
 
 **Why it's useful:**
 - Saves time (automatic instead of manual checking)
 - Prevents system freezes
 - Helps learn operating system concepts
-- Provides visual understanding
+- Provides interactive visual understanding
+- Modern, user-friendly interface with themes
+- No installation required - runs in browser
 
 ---
 

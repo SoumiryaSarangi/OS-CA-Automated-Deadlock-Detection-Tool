@@ -50,9 +50,10 @@ npm --version
 ### Step 1: Load a Sample
 
 1. Open the app in your browser
-2. You'll see the **Input Tab** by default
-3. Click the **"Circular Deadlock"** button under "Load Sample Dataset"
-4. Tables will auto-populate with data
+2. **Choose your theme** - Click the 🌓/☀️ toggle in top-right (Dark or Light mode)
+3. You'll see the **Input Tab** by default with animated CPU icon
+4. Click the **"Circular Deadlock"** button under "Load Sample Dataset"
+5. Tables will auto-populate with data
 
 ### Step 2: Analyze
 
@@ -71,12 +72,15 @@ You'll see:
 
 ### Step 4: Visualize
 
-1. Click the **"Visualization"** tab
-2. See the interactive graph:
+1. Click the **"Visualization"** tab (animated chart icon)
+2. Watch the smooth page transition animation
+3. See the interactive graph:
    - **Red circles** = Deadlocked processes
+   - **Blue circles** = Safe processes
    - **Purple circles** = Resources
    - **Yellow dashed arrows** = Requests
    - **Green solid arrows** = Allocations
+4. Drag nodes to rearrange the graph
 
 ---
 
@@ -226,9 +230,12 @@ Now that you're set up:
 
 ## 💡 Pro Tips
 
+- 🌓 **Theme Toggle**: Switch between Dark/Light mode for eye comfort
 - 🔥 **Hot Reload**: Changes to code auto-refresh browser
 - 🎨 **DevTools**: Press F12 to see console logs
-- 💾 **Save Often**: Export JSON to save your work
+- 💾 **Save Often**: Export JSON or use browser storage
+- 💭 **Hover Effects**: Watch animated icons on tab hover
+- 💾 **Local Storage**: Click "Save Locally" for quick saves
 - 📖 **Read Traces**: Understanding traces helps you learn algorithms
 
 ---

@@ -218,6 +218,25 @@ P1 holds R1, needs R0
 
 ---
 
+## 🎨 Using the Deadlock Detective Web App
+
+Our **Deadlock Detective** application makes learning about deadlocks fun and interactive!
+
+### Features:
+- **🌓 Dark/Light Theme** - Switch between themes for comfortable viewing
+- **🎬 Smooth Animations** - GSAP-powered transitions and animated icons
+- **📊 Interactive Graphs** - D3.js visualizations with drag-and-drop nodes
+- **📱 Responsive Design** - Works on desktop, tablet, and mobile
+- **💾 Browser Storage** - Save your work locally
+
+### Quick Try:
+1. Open the app in your browser (npm run dev)
+2. Load "Circular Deadlock" sample
+3. Click "Analyze for Deadlock"
+4. See the red circles showing deadlocked processes!
+
+---
+
 ## 🚀 Next Steps
 
 Now that you understand deadlocks, let's learn about:
@@ -225,6 +244,7 @@ Now that you understand deadlocks, let's learn about:
 1. **The Problem Statement** → See `2_PROBLEM_STATEMENT.md`
 2. **How Calculations Work** → See `3_DETECTION_ALGORITHMS.md`
 3. **How Our Project Works** → See `4_PROJECT_GUIDE.md`
+4. **How to Use the App** → See `5_USER_GUIDE.md`
 
 ---
 
