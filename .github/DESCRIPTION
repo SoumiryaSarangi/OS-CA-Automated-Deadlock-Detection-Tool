@@ -1,0 +1,1 @@
+Modern web-based deadlock detection tool for Operating Systems. Implements Matrix-Based and Wait-For Graph algorithms with interactive D3.js visualization, theme switching, and educational step-by-step traces. Built with React, Vite, and GSAP animations.
