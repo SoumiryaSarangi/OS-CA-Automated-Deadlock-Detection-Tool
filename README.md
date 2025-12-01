@@ -123,14 +123,6 @@ This web application:
 - ✅ GSAP-powered smooth animations (60fps)
 - ✅ Browser localStorage - Save your work locally
 
-### 📄 **Professional Export & Reporting**
-
-- ✅ **PDF Reports** - Professional documentation with graphs, traces, and recommendations
-- ✅ **LaTeX Output** - Academic format with mathematical notation for papers
-- ✅ **JSON Export** - Raw structured data for programmatic access
-- ✅ Real-world applicability with publication-ready output
-- ✅ One-click export from Results tab
-
 ---
 
 ## 🚀 Quick Start
@@ -395,8 +387,6 @@ npm run build
 **Quick References:**
 - **[QUICK_START.md](QUICK_START.md)** - Get running in 5 minutes
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Alternative user guide
-- **[EXPORT_FEATURES.md](EXPORT_FEATURES.md)** - 📄 Export & reporting documentation
-- **[EXPORT_QUICK_START.md](EXPORT_QUICK_START.md)** - 🚀 Quick guide to exporting reports
 
 **Community Standards:**
 - **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines

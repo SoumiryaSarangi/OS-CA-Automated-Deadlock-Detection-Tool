@@ -6,6 +6,306 @@
 
 .viz-header h2 {
   margin-bottom: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-icon {
+  color: var(--accent-primary);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Simulation Controls */
+.simulation-controls {
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.controls-main {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctrl-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  opacity: 0.3;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ctrl-btn:hover:not(:disabled)::before {
+  width: 100px;
+  height: 100px;
+}
+
+.ctrl-btn:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.ctrl-btn:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ctrl-btn-primary {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: white;
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+}
+
+.ctrl-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.6);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.step-info {
+  text-align: center;
+}
+
+.step-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin: var(--spacing-sm) 0;
+}
+
+.step-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.progress-bar-container {
+  padding: var(--spacing-lg) 0;
+}
+
+.progress-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: var(--spacing-sm) 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) var(--bg-primary);
+}
+
+.progress-bar-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.progress-bar-track::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-radius: 3px;
+}
+
+.progress-bar-track::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
+}
+
+.progress-dot {
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.progress-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.progress-dot.completed {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.progress-dot.completed::after {
+  background: white;
+}
+
+.progress-dot.active {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  width: 24px;
+  height: 24px;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+}
+
+.progress-dot.active::after {
+  width: 10px;
+  height: 10px;
+  background: white;
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+.progress-dot:hover {
+  transform: scale(1.3);
+  border-color: var(--accent-primary);
+}
+
+.controls-settings {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.speed-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.speed-selector select {
+  padding: 0.5rem 1rem;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.speed-selector select:hover {
+  border-color: var(--accent-primary);
+}
+
+.speed-selector select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Algorithm State */
+.algorithm-state {
+  padding: var(--spacing-lg);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  gap: var(--spacing-xl);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.state-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  min-width: 200px;
+}
+
+.state-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.state-value {
+  font-family: 'Courier New', monospace;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--accent-primary);
 }
 
 .legend {
@@ -61,12 +361,26 @@
   background: #3b82f6;
 }
 
+.legend-symbol.process-checking {
+  background: #f59e0b;
+  animation: pulse-checking 1s ease-in-out infinite;
+}
+
+.legend-symbol.process-finished {
+  background: #10b981;
+}
+
 .legend-symbol.process-deadlock {
   background: #ef4444;
 }
 
 .legend-symbol.resource {
   background: #8b5cf6;
+}
+
+@keyframes pulse-checking {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
 }
 
 .legend-line {
@@ -112,20 +426,62 @@
 .graph-container {
   padding: var(--spacing-xl);
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 600px;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+@media (max-width: 1024px) {
+  .simulation-controls {
+    gap: var(--spacing-md);
+  }
+
+  .controls-main {
+    gap: var(--spacing-sm);
+  }
+
+  .ctrl-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ctrl-btn-primary {
+    width: 56px;
+    height: 56px;
+  }
+
+  .algorithm-state {
+    flex-direction: column;
+  }
 }
 
-.graph-container svg {
-  width: 100%;
-  height: 600px;
-}
+@media (max-width: 768px) {
+  .legend-items {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
+  .graph-container {
+    min-height: 400px;
+  }
+
+  .graph-container svg {
+    height: 400px;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+  }
+
+  .ctrl-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ctrl-btn-primary {
+    width: 52px;
+    height: 52px;
+  }
+}
 @media (max-width: 768px) {
   .legend-items {
     flex-direction: column;
