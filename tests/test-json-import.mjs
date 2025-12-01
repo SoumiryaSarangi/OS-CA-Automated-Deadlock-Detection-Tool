@@ -5,9 +5,9 @@
  */
 
 import { readFileSync } from 'fs';
-import { importFromJSON, exportToJSON } from './src/utils/samples.js';
-import { detectDeadlockWFG } from './src/algorithms/wfg.js';
-import { detectDeadlockMatrix } from './src/algorithms/matrix.js';
+import { importFromJSON, exportToJSON } from '../src/utils/samples.js';
+import { detectDeadlockWFG } from '../src/algorithms/wfg.js';
+import { detectDeadlockMatrix } from '../src/algorithms/matrix.js';
 
 let totalTests = 0;
 let passedTests = 0;
@@ -50,43 +50,43 @@ console.log('══════════════════════�
 const testFiles = [
   {
     name: 'Circular Deadlock',
-    path: './test-data/circular-deadlock.json',
+    path: './tests/test-data/circular-deadlock.json',
     expectedDeadlock: true,
     expectedAlgorithm: 'wfg'
   },
   {
     name: 'Safe State Multi-Instance',
-    path: './test-data/safe-state-multi.json',
+    path: './tests/test-data/safe-state-multi.json',
     expectedDeadlock: false,
     expectedAlgorithm: 'matrix'
   },
   {
     name: 'Banking Deadlock',
-    path: './test-data/banking-deadlock.json',
+    path: './tests/test-data/banking-deadlock.json',
     expectedDeadlock: true,
     expectedAlgorithm: 'wfg'
   },
   {
     name: 'Bankers Algorithm Safe',
-    path: './test-data/bankers-algorithm-safe.json',
+    path: './tests/test-data/bankers-algorithm-safe.json',
     expectedDeadlock: false,
     expectedAlgorithm: 'matrix'
   },
   {
     name: 'Mixed Instance Deadlock',
-    path: './test-data/mixed-instance-deadlock.json',
+    path: './tests/test-data/mixed-instance-deadlock.json',
     expectedDeadlock: true,
     expectedAlgorithm: 'matrix'
   },
   {
     name: 'Single Process Safe',
-    path: './test-data/single-process-safe.json',
+    path: './tests/test-data/single-process-safe.json',
     expectedDeadlock: false,
     expectedAlgorithm: 'matrix'
   },
   {
     name: 'Empty System',
-    path: './test-data/empty-system.json',
+    path: './tests/test-data/empty-system.json',
     expectedDeadlock: false,
     expectedAlgorithm: 'matrix'
   }

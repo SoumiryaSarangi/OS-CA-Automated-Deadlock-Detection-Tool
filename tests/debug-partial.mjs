@@ -2,7 +2,7 @@
  * DEBUG TEST FOR PARTIAL DEADLOCK CASE
  */
 
-import { detectDeadlockMatrix } from './src/algorithms/matrix.js';
+import { detectDeadlockMatrix } from '../src/algorithms/matrix.js';
 
 const state = {
   processes: [

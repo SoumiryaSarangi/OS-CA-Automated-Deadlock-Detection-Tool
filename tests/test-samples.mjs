@@ -4,9 +4,9 @@
  * Validates all sample datasets for correctness
  */
 
-import { SAMPLES } from './src/utils/samples.js';
-import { detectDeadlockWFG } from './src/algorithms/wfg.js';
-import { detectDeadlockMatrix } from './src/algorithms/matrix.js';
+import { SAMPLES } from '../src/utils/samples.js';
+import { detectDeadlockWFG } from '../src/algorithms/wfg.js';
+import { detectDeadlockMatrix } from '../src/algorithms/matrix.js';
 
 let totalTests = 0;
 let passedTests = 0;

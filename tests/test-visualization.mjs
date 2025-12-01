@@ -4,9 +4,9 @@
  * Tests that all data structures match what the UI components expect
  */
 
-import { detectDeadlockWFG } from './src/algorithms/wfg.js';
-import { detectDeadlockMatrix } from './src/algorithms/matrix.js';
-import { generateRecoverySuggestions } from './src/algorithms/recovery.js';
+import { detectDeadlockWFG } from '../src/algorithms/wfg.js';
+import { detectDeadlockMatrix } from '../src/algorithms/matrix.js';
+import { generateRecoverySuggestions } from '../src/algorithms/recovery.js';
 
 let totalTests = 0;
 let passedTests = 0;
