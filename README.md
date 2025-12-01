@@ -7,7 +7,21 @@ A modern, interactive web application for detecting and visualizing deadlocks in
 [![React](https://img.shields.io/badge/React-19.2-blue)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2-646CFF)](https://vitejs.dev/)
 [![D3.js](https://img.shields.io/badge/D3.js-7.9-F9A03C)](https://d3js.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+---
+
+## 👥 Project Team
+
+**Academic Project - Lovely Professional University**  
+**Course:** CSE 316 - Operating Systems  
+**Term:** 25261
+
+**Team Members:**
+- **Soumirya Sarangi** - Team Lead & Algorithm Implementation
+- **Arkja** - UI/UX Development & Documentation
+- **Karthiksai Kumaraguru** - Visualization & Testing
+
+**Registration:** 12418268
 
 ---
 
@@ -435,14 +449,34 @@ Contributions are welcome! To contribute:
 
 ---
 
-## 📄 License
+## 🎓 Academic Project Details
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+**Institution:** Lovely Professional University  
+**School:** Computer Science and Engineering  
+**Faculty:** Technology and Sciences  
+**Course Code:** CSE 316  
+**Course Title:** Operating Systems  
+**Term:** 25261  
+**Project Type:** Academic Task-2 (CA Component)
+
+### Problem Statement
+
+> **"Automated Deadlock Detection Tool: Develop a tool that automatically detects potential deadlocks in system processes. The tool should analyze process dependencies and resource allocation to identify circular wait conditions and suggest resolution strategies."**
+
+### Project Objectives
+
+1. ✅ Implement automated deadlock detection algorithms
+2. ✅ Analyze process dependencies and resource allocation
+3. ✅ Identify circular wait conditions
+4. ✅ Provide visual representation of system state
+5. ✅ Suggest resolution strategies for detected deadlocks
 
 ---
 
 ## 🙏 Acknowledgments
 
+- **Lovely Professional University** - For providing the opportunity and guidance
+- **Operating Systems Faculty** - For mentorship and support
 - **Operating Systems Concepts** by Silberschatz, Galvin, and Gagne
 - **Dijkstra's Banker's Algorithm** (1965)
 - **React Documentation** - [https://react.dev/](https://react.dev/)
@@ -452,8 +486,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
+**Team Contact:**
 - **Repository**: [https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool)
 - **Issues**: [GitHub Issues](https://github.com/SoumiryaSarangi/OS-CA-Automated-Deadlock-Detection-Tool/issues)
+
+**Team Members:**
+- Soumirya Sarangi
+- Arkja
+- Karthiksai Kumaraguru
 
 ---
 
@@ -461,12 +501,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ✅ **Version 2.0** - Complete React web application  
 ✅ All algorithms implemented and tested  
-✅ Interactive visualization with D3.js  
+✅ Interactive visualization with D3.js & GSAP  
+✅ Theme switcher (Dark/Light mode)  
 ✅ Comprehensive documentation  
-✅ Ready for educational use  
+✅ GitHub revision tracking maintained  
+✅ Ready for academic evaluation  
 
 ---
 
-**Made with ❤️ for Operating Systems Education**
+**Developed for Operating Systems Course (CSE 316)**  
+**Lovely Professional University | Term 25261**
 
 **Happy Deadlock Detecting! 🔍**
