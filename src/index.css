@@ -294,3 +294,14 @@ td input:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* Utility Classes */
+.section {
+  position: relative;
+  overflow: visible;
+}
+
+.card {
+  position: relative;
+  overflow: visible;
+}

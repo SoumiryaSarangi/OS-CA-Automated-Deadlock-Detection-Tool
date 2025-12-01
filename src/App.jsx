@@ -75,6 +75,9 @@ function App() {
       });
 
       setCurrentTab('results');
+      
+      // Scroll to top of page when switching to results
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       alert(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
@@ -136,7 +139,10 @@ function App() {
             />
           )}
           {currentTab === 'results' && detectionResult && (
-            <ResultsTab detectionResult={detectionResult} />
+            <ResultsTab 
+              systemState={systemState}
+              detectionResult={detectionResult} 
+            />
           )}
         </div>
       </main>
