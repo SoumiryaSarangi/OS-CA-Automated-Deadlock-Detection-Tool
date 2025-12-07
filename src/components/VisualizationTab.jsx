@@ -136,7 +136,7 @@ export default function VisualizationTab({
 
   const addMatrixSteps = (steps, allAllocations, allRequests) => {
     const n = systemState.processes.length;
-    let work = [...systemState.available];
+    let available = [...systemState.available];
     let finish = Array(n).fill(false);
     let iteration = 0;
     let progress = true;
@@ -148,7 +148,7 @@ export default function VisualizationTab({
       for (let i = 0; i < n; i++) {
         if (!finish[i]) {
           const request = systemState.request[i];
-          const canFinish = request.every((r, j) => r <= work[j]);
+          const canFinish = request.every((r, j) => r <= available[j]);
 
           const nodes = buildInitialNodes();
           nodes.forEach(node => {
@@ -161,17 +161,17 @@ export default function VisualizationTab({
           steps.push({
             type: 'check-process',
             title: `Checking P${i}`,
-            description: `Can P${i} finish? Request: [${request.join(', ')}], Work: [${work.join(', ')}] → ${canFinish ? '✓ Yes' : '✗ No'}`,
+            description: `Can P${i} finish? Request: [${request.join(', ')}], Available: [${available.join(', ')}] → ${canFinish ? '✓ Yes' : '✗ No'}`,
             nodes,
             edges: { allocation: allAllocations, request: allRequests },
             highlights: [{ type: 'process', id: i }],
-            work: [...work],
+            available: [...available],
             finish: [...finish]
           });
 
           if (canFinish) {
             finish[i] = true;
-            work = work.map((w, j) => w + systemState.allocation[i][j]);
+            available = available.map((a, j) => a + systemState.allocation[i][j]);
             progress = true;
 
             const finishedNodes = buildInitialNodes();
@@ -184,11 +184,11 @@ export default function VisualizationTab({
             steps.push({
               type: 'process-finish',
               title: `P${i} Finishes`,
-              description: `P${i} releases resources. New Work: [${work.join(', ')}]`,
+              description: `P${i} releases resources. New Available: [${available.join(', ')}]`,
               nodes: finishedNodes,
               edges: { allocation: allAllocations, request: allRequests },
               highlights: [{ type: 'process', id: i }],
-              work: [...work],
+              available: [...available],
               finish: [...finish]
             });
           }
@@ -219,7 +219,7 @@ export default function VisualizationTab({
       nodes: finalNodes,
       edges: { allocation: allAllocations, request: allRequests },
       highlights: deadlockedProcesses.map(id => ({ type: 'process', id })),
-      work: [...work],
+      available: [...available],
       finish: [...finish]
     });
   };
@@ -259,11 +259,21 @@ export default function VisualizationTab({
     // Clear previous content
     d3.select(svgRef.current).selectAll('*').remove();
 
-    const width = containerRef.current.clientWidth;
-    const height = 600;
+    const containerWidth = containerRef.current.clientWidth;
+    const containerHeight = containerRef.current.clientHeight;
+    
+    // Use a fixed coordinate system that will scale to fit
+    const viewBoxWidth = 1000;
+    const viewBoxHeight = 600;
+    
     const svg = d3.select(svgRef.current)
-      .attr('width', width)
-      .attr('height', height);
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', `0 0 ${viewBoxWidth} ${viewBoxHeight}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet');
+    
+    const width = viewBoxWidth;
+    const height = viewBoxHeight;
 
     // Create graph data from step
     const processes = step.nodes.filter(n => n.type === 'process').map((n, i) => ({
@@ -301,8 +311,125 @@ export default function VisualizationTab({
       type: 'request',
     })).filter(e => e.source && e.target);
 
+    // Define arrowheads
+    svg.append('defs').selectAll('marker')
+      .data(['green', 'yellow', 'red'])
+      .enter()
+      .append('marker')
+      .attr('id', (d) => `arrowhead-${d}`)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', (d) => d === 'green' || d === 'yellow' ? 35 : 25)
+      .attr('refY', 0)
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .attr('orient', 'auto')
+      .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', (d) => 
+        d === 'green' ? '#10b981' : d === 'yellow' ? '#f59e0b' : '#ef4444'
+      );
+
+    // Draw nodes FIRST (static, no animations)
+    const nodeGroups = svg.append('g')
+      .selectAll('g')
+      .data(nodes)
+      .enter()
+      .append('g')
+      .attr('transform', (d) => `translate(${d.x},${d.y})`);
+
+    // Draw process nodes (circles)
+    nodeGroups.filter(d => d.type === 'process')
+      .append('circle')
+      .attr('r', 30)
+      .attr('fill', (d) => {
+        if (d.status === 'checking') return '#f59e0b';
+        if (d.status === 'finished') return '#10b981';
+        if (d.status === 'deadlocked') return '#ef4444';
+        return '#3b82f6';
+      })
+      .attr('stroke', (d) => d.highlighted ? '#fbbf24' : '#fff')
+      .attr('stroke-width', (d) => d.highlighted ? 4 : 2)
+      .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))')
+      .attr('opacity', 1);
+
+    // Draw resource nodes (rectangles with instance dots)
+    const resourceNodes = nodeGroups.filter(d => d.type === 'resource');
+    
+    const rectWidth = 60;
+    const dotSize = 8;
+    const dotSpacing = 12;
+    
+    resourceNodes.each(function(d) {
+      const group = d3.select(this);
+      const instances = d.instances || 1;
+      const rectHeight = Math.max(40, instances * dotSpacing + 20);
+      
+      // Draw rectangle
+      group.append('rect')
+        .attr('x', -rectWidth / 2)
+        .attr('y', -rectHeight / 2)
+        .attr('width', rectWidth)
+        .attr('height', rectHeight)
+        .attr('rx', 8)
+        .attr('fill', '#8b5cf6')
+        .attr('stroke', d.highlighted ? '#fbbf24' : '#fff')
+        .attr('stroke-width', d.highlighted ? 4 : 2)
+        .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))')
+        .attr('opacity', 1);
+      
+      // Draw instance dots
+      const startY = -(instances - 1) * dotSpacing / 2;
+      for (let i = 0; i < instances; i++) {
+        group.append('circle')
+          .attr('cx', 0)
+          .attr('cy', startY + i * dotSpacing)
+          .attr('r', dotSize / 2)
+          .attr('fill', '#fff')
+          .attr('opacity', 0.9);
+      }
+    });
+
+    // Add process labels
+    nodeGroups.filter(d => d.type === 'process')
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.35em')
+      .attr('fill', '#fff')
+      .attr('font-weight', '600')
+      .attr('font-size', '14px')
+      .text((d) => d.id)
+      .attr('opacity', 1);
+
+    // Add resource labels (below rectangle)
+    resourceNodes.each(function(d) {
+      const group = d3.select(this);
+      const instances = d.instances || 1;
+      const rectHeight = Math.max(40, instances * dotSpacing + 20);
+      
+      // Add resource ID below rectangle
+      group.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', `${rectHeight / 2 + 18}px`)
+        .attr('fill', '#fff')
+        .attr('font-weight', '600')
+        .attr('font-size', '14px')
+        .text(d.id)
+        .attr('opacity', 1);
+      
+      // Add instance count label below ID
+      group.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', `${rectHeight / 2 + 34}px`)
+        .attr('fill', '#a0a0a0')
+        .attr('font-size', '11px')
+        .text(`(${instances})`)
+        .attr('opacity', 1);
+    });
+
+    // NOW draw edges (after nodes)
     // Draw allocation edges (resource -> process)
     const allocationLines = svg.append('g')
+      .attr('class', 'edges-allocation')
       .selectAll('line')
       .data(allocationEdges)
       .enter()
@@ -314,154 +441,39 @@ export default function VisualizationTab({
       .attr('stroke', '#10b981')
       .attr('stroke-width', 2)
       .attr('marker-end', 'url(#arrowhead-green)')
-      .attr('opacity', 0);
+      .attr('opacity', 0.7);
 
-    // Draw request edges (process -> resource)
+    // Draw request edges with smart curvature (process -> resource)
     const requestLines = svg.append('g')
-      .selectAll('line')
+      .attr('class', 'edges-request')
+      .selectAll('path')
       .data(requestEdges)
       .enter()
-      .append('line')
-      .attr('x1', (d) => d.source.x)
-      .attr('y1', (d) => d.source.y)
-      .attr('x2', (d) => d.target.x)
-      .attr('y2', (d) => d.target.y)
+      .append('path')
+      .attr('d', (d) => {
+        // Check if there's an allocation edge between the same nodes (reverse direction)
+        const hasOverlap = allocationEdges.some(ae => 
+          ae.source.x === d.target.x && ae.source.y === d.target.y &&
+          ae.target.x === d.source.x && ae.target.y === d.source.y
+        );
+        
+        if (hasOverlap) {
+          // Add subtle curve when overlapping
+          const dx = d.target.x - d.source.x;
+          const dy = d.target.y - d.source.y;
+          const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; // Subtle arc
+          return `M ${d.source.x},${d.source.y} A ${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+        } else {
+          // Straight line when no overlap
+          return `M ${d.source.x},${d.source.y} L ${d.target.x},${d.target.y}`;
+        }
+      })
       .attr('stroke', '#f59e0b')
       .attr('stroke-width', 2)
       .attr('stroke-dasharray', '5,5')
+      .attr('fill', 'none')
       .attr('marker-end', 'url(#arrowhead-yellow)')
-      .attr('opacity', 0);
-
-    // Define arrowheads
-    svg.append('defs').selectAll('marker')
-      .data(['green', 'yellow', 'red'])
-      .enter()
-      .append('marker')
-      .attr('id', (d) => `arrowhead-${d}`)
-      .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 25)
-      .attr('refY', 0)
-      .attr('markerWidth', 6)
-      .attr('markerHeight', 6)
-      .attr('orient', 'auto')
-      .append('path')
-      .attr('d', 'M0,-5L10,0L0,5')
-      .attr('fill', (d) => 
-        d === 'green' ? '#10b981' : d === 'yellow' ? '#f59e0b' : '#ef4444'
-      );
-
-    // Draw nodes
-    const nodeGroups = svg.append('g')
-      .selectAll('g')
-      .data(nodes)
-      .enter()
-      .append('g')
-      .attr('transform', (d) => `translate(${d.x},${d.y})`);
-
-    // Add circles for nodes
-    nodeGroups.append('circle')
-      .attr('r', 30)
-      .attr('fill', (d) => {
-        if (d.type === 'process') {
-          return d.deadlocked ? '#ef4444' : '#3b82f6';
-        }
-        return '#8b5cf6';
-      })
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 2)
-      .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))')
-      .attr('opacity', 0);
-
-    // Add labels
-    // Add circles for nodes
-    const circles = nodeGroups.append('circle')
-      .attr('r', 30)
-      .attr('fill', (d) => {
-        if (d.type === 'process') {
-          if (d.status === 'checking') return '#f59e0b';
-          if (d.status === 'finished') return '#10b981';
-          if (d.status === 'deadlocked') return '#ef4444';
-          return '#3b82f6';
-        }
-        return '#8b5cf6';
-      })
-      .attr('stroke', (d) => d.highlighted ? '#fbbf24' : '#fff')
-      .attr('stroke-width', (d) => d.highlighted ? 4 : 2)
-      .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))')
-      .attr('opacity', 0);
-
-    nodeGroups
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '2.5em')
-      .attr('fill', '#a0a0a0')
-      .attr('font-size', '11px')
-      .text((d) => `(${d.instances})`)
-      .attr('opacity', 0);
-
-    // Animate everything with GSAP
-    gsap.to(allocationLines.nodes(), {
-      attr: { opacity: 0.7 },
-      duration: 0.5,
-      stagger: 0.05,
-      ease: 'power2.out',
-    });
-
-    gsap.to(requestLines.nodes(), {
-      attr: { opacity: 0.7 },
-      duration: 0.5,
-      delay: 0.3,
-      stagger: 0.05,
-      ease: 'power2.out',
-    });
-
-    gsap.to(nodeGroups.selectAll('circle').nodes(), {
-      attr: { opacity: 1 },
-      duration: 0.5,
-      delay: 0.6,
-      stagger: 0.05,
-      ease: 'power2.out',
-    });
-
-    gsap.to(nodeGroups.selectAll('text').nodes(), {
-      attr: { opacity: 1 },
-      duration: 0.5,
-      delay: 0.8,
-      stagger: 0.05,
-      ease: 'power2.out',
-    });
-
-    // Pulse highlighted nodes
-    circles.each(function(d) {
-      if (d.highlighted) {
-        gsap.fromTo(this,
-          { attr: { r: 30 } },
-          { 
-            attr: { r: 35 }, 
-            duration: 0.6, 
-            repeat: -1, 
-            yoyo: true,
-            ease: 'power1.inOut'
-          }
-        );
-      }
-    });
-
-    // Add labels
-    nodeGroups.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '0.35em')
-      .attr('fill', '#fff')
-      .attr('font-weight', '600')
-      .attr('font-size', '14px')
-      .text((d) => d.id)
-      .attr('opacity', 0);
-
-    gsap.to(nodeGroups.selectAll('text').nodes(), {
-      attr: { opacity: 1 },
-      duration: 0.3,
-      delay: 0.9,
-    });
+      .attr('opacity', 0.7);
   };
 
   const handleReset = () => {
@@ -494,68 +506,17 @@ export default function VisualizationTab({
 
   return (
     <div ref={containerRef} className="visualization-tab">
-      <div className="viz-header">
-        <h2>
-          <Zap size={28} className="header-icon" />
-          Interactive Simulation
-        </h2>
-        <p className="subtitle">
-          Watch the {detectionResult.algorithm === 'matrix' ? 'Matrix-Based' : 'Wait-For Graph'} algorithm execute step-by-step
-        </p>
+      {/* Step Info at Top */}
+      <div className="step-info-header card">
+        <span className="step-badge">Step {currentStep + 1} of {steps.length}</span>
+        <h3 className="step-title">{currentStepData.title}</h3>
+        <p className="step-desc">{currentStepData.description}</p>
       </div>
 
-      {/* Simulation Controls */}
-      <div className="simulation-controls card">
-        <div className="controls-main">
-          <button onClick={handleReset} className="ctrl-btn" title="Reset" disabled={currentStep === 0}>
-            <RotateCcw size={20} />
-          </button>
-          <button onClick={handlePrevious} className="ctrl-btn" title="Previous" disabled={currentStep === 0}>
-            <SkipBack size={20} />
-          </button>
-          <button onClick={handlePlayPause} className="ctrl-btn ctrl-btn-primary" title={isPlaying ? 'Pause' : 'Play'}>
-            {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-          </button>
-          <button onClick={handleNext} className="ctrl-btn" title="Next" disabled={currentStep === steps.length - 1}>
-            <SkipForward size={20} />
-          </button>
-        </div>
-
-        <div className="progress-section">
-          <div className="step-info">
-            <span className="step-badge">Step {currentStep + 1} of {steps.length}</span>
-            <h3 className="step-title">{currentStepData.title}</h3>
-            <p className="step-desc">{currentStepData.description}</p>
-          </div>
-          <div className="progress-bar-container">
-            <div className="progress-bar-track">
-              {steps.map((s, idx) => (
-                <div 
-                  key={idx}
-                  className={`progress-dot ${idx === currentStep ? 'active' : idx < currentStep ? 'completed' : ''}`}
-                  onClick={() => handleStepClick(idx)}
-                  title={s.title}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {currentStepData.work && (
-          <div className="algorithm-state">
-            <div className="state-item">
-              <span className="state-label">Work Vector:</span>
-              <span className="state-value">[{currentStepData.work.join(', ')}]</span>
-            </div>
-            <div className="state-item">
-              <span className="state-label">Finish Vector:</span>
-              <span className="state-value">[{currentStepData.finish.map(f => f ? 'T' : 'F').join(', ')}]</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="legend card">
+      {/* Main Content Area: Sidebar + Diagram */}
+      <div className="viz-main-content">
+        {/* Legend Sidebar */}
+        <div className="legend-sidebar card">
         <h4>Legend</h4>
         <div className="legend-items">
           <div className="legend-item">
@@ -589,8 +550,48 @@ export default function VisualizationTab({
         </div>
       </div>
 
-      <div className="graph-container card">
-        <svg ref={svgRef}></svg>
+        {/* Diagram Container */}
+        <div className="graph-container card">
+          <svg ref={svgRef}></svg>
+        </div>
+      </div>
+
+      {/* Bottom Controls with Progress Dots */}
+      <div className="simulation-controls card">
+        <div className="progress-section">
+          <div className="step-info">
+            <span className="step-badge">Step {currentStep + 1} of {steps.length}</span>
+            <h3 className="step-title">{currentStepData.title}</h3>
+            <p className="step-desc">{currentStepData.description}</p>
+          </div>
+          <div className="progress-bar-container">
+            <div className="progress-bar-track">
+              {steps.map((s, idx) => (
+                <div 
+                  key={idx}
+                  className={`progress-dot ${idx === currentStep ? 'active' : idx < currentStep ? 'completed' : ''}`}
+                  onClick={() => handleStepClick(idx)}
+                  title={s.title}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="controls-main">
+          <button onClick={handleReset} className="ctrl-btn" title="Reset" disabled={currentStep === 0}>
+            <RotateCcw size={20} />
+          </button>
+          <button onClick={handlePrevious} className="ctrl-btn" title="Previous" disabled={currentStep === 0}>
+            <SkipBack size={20} />
+          </button>
+          <button onClick={handlePlayPause} className="ctrl-btn ctrl-btn-primary" title={isPlaying ? 'Pause' : 'Play'}>
+            {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+          </button>
+          <button onClick={handleNext} className="ctrl-btn" title="Next" disabled={currentStep === steps.length - 1}>
+            <SkipForward size={20} />
+          </button>
+        </div>
       </div>
     </div>
   );

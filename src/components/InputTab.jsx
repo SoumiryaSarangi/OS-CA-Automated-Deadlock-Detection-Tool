@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { SAMPLES } from '../utils/samples';
+import { SAMPLES, SAMPLE_DESCRIPTIONS } from '../utils/samples';
 import { exportToJSON, importFromJSON, saveStateToLocalStorage, loadStateFromLocalStorage, clearStateFromLocalStorage } from '../utils/samples';
 import { createEmptySystemState } from '../types/models';
 import './InputTab.css';
@@ -265,6 +265,7 @@ export default function InputTab({
               key={name}
               className={`btn btn-secondary sample-btn ${currentSample === name ? 'active' : ''}`}
               onClick={() => handleLoadSample(name)}
+              title={SAMPLE_DESCRIPTIONS[name]}
             >
               {name}
             </button>

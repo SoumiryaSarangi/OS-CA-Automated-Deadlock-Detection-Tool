@@ -2,7 +2,7 @@
 REM Quick launcher for Deadlock Detective
 
 echo Starting Deadlock Detective...
-python app.py
+py -3 app.py
 
 if errorlevel 1 (
     echo.

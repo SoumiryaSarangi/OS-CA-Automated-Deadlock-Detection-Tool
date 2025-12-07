@@ -2,16 +2,16 @@
  * Matrix-Based Deadlock Detector
  * 
  * Implements the detection algorithm for multi-instance resources
- * using the Work/Finish approach with Available, Allocation, and Request matrices.
+ * using the Available/Finish approach with Available, Allocation, and Request matrices.
  */
 
 // Removed TypeScript import
 
 /**
- * Check if request vector <= work vector (component-wise)
+ * Check if request vector <= available vector (component-wise)
  */
-function vectorLessEqual(req, work) {
-  return req.every((r, i) => r <= work[i]);
+function vectorLessEqual(req, available) {
+  return req.every((r, i) => r <= available[i]);
 }
 
 /**
@@ -29,7 +29,7 @@ function vectorToString(vec) {
 }
 
 /**
- * Detect deadlock using matrix-based algorithm with Work and Finish vectors
+ * Detect deadlock using matrix-based algorithm with Available and Finish vectors
  */
 export function detectDeadlockMatrix(state) {
   const trace = [];
@@ -55,14 +55,14 @@ export function detectDeadlockMatrix(state) {
   });
   trace.push('');
 
-  // Initialize Work and Finish
-  trace.push('Initializing Work and Finish vectors...');
-  let work = [...state.available];
+  // Initialize Available and Finish
+  trace.push('Initializing Available and Finish vectors...');
+  let available = [...state.available];
   const finish = Array(n).fill(false);
   const execution_order = [];
 
-  trace.push(`Work = Available = ${vectorToString(work)}`);
-  trace.push('Finish = [' + finish.map(f => f ? 'True' : 'False').join(', ') + ']\n');
+  trace.push(`Available = ${vectorToString(available)}`);
+  trace.push('Finish = [' + finish.map(f => f ? 'True' : 'False').join(', ') + '\n');
 
   // Main detection algorithm
   trace.push('Starting detection algorithm...\n');
@@ -77,35 +77,35 @@ export function detectDeadlockMatrix(state) {
 
     for (let i = 0; i < n; i++) {
       if (!finish[i]) {
-        const can_finish = vectorLessEqual(state.request[i], work);
+        const can_finish = vectorLessEqual(state.request[i], available);
         
         trace.push(
           `Checking P${i}: Finish[${i}] = ${finish[i]}, ` +
           `Request[${i}] = ${vectorToString(state.request[i])}, ` +
-          `Work = ${vectorToString(work)}`
+          `Available = ${vectorToString(available)}`
         );
 
         if (can_finish) {
           finish[i] = true;
           execution_order.push(i);
-          work = vectorAdd(work, state.allocation[i]);
+          available = vectorAdd(available, state.allocation[i]);
           progress = true;
 
           trace.push(
-            `  ✓ P${i} can finish! Request[${i}] <= Work`
+            `  ✓ P${i} can finish! Request[${i}] <= Available`
           );
           trace.push(
             `    Setting Finish[${i}] = True`
           );
           trace.push(
-            `    Releasing resources: Work = Work + Allocation[${i}]`
+            `    Releasing resources: Available = Available + Allocation[${i}]`
           );
           trace.push(
-            `    New Work = ${vectorToString(work)}\n`
+            `    New Available = ${vectorToString(available)}\n`
           );
         } else {
           trace.push(
-            `  ✗ P${i} cannot finish. Request[${i}] > Work\n`
+            `  ✗ P${i} cannot finish. Request[${i}] > Available\n`
           );
         }
       }

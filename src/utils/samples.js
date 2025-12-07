@@ -494,13 +494,32 @@ export const SAMPLE_SEQUENTIAL_SAFE = {
 };
 
 /**
- * All sample datasets - Organized from Easy to Complex
+ * Sample descriptions for tooltips
+ */
+export const SAMPLE_DESCRIPTIONS = {
+  'No Requests (Trivial Safe)': '3 processes with allocated resources but no pending requests. System is trivially safe.',
+  'Simple Safe State': '3 processes with 2 resources. System can satisfy all requests sequentially. Matrix algorithm finds safe sequence.',
+  'Two Process Deadlock (Single-Instance)': '2 processes holding one resource each and requesting the other. Classic mutual wait deadlock.',
+  'Circular Deadlock (Single-Instance)': '3 processes forming a circular wait chain (P0→P1→P2→P0). Detected by cycle in Wait-For Graph.',
+  'Single-Instance Safe': '3 processes with mutex locks. P0 has acquired Lock A, system can still proceed safely.',
+  'Sequential Safe (Single-Instance)': '4 processes accessing locks sequentially. Safe due to ordered resource acquisition pattern.',
+  'Chain Deadlock (Single-Instance)': '4 processes (P0→P1→P2→P3→P0) forming circular chain with printer/scanner resources.',
+  'Database Lock Deadlock (Single-Instance)': '3 database transactions with table locks forming circular dependency.',
+  'Banker\'s Algorithm (Safe)': '5 processes competing for CPU/Memory/Disk. Classic Banker\'s algorithm scenario with safe sequence.',
+  'Multi-Instance Deadlock': '4 processes with multi-instance resources. Deadlock despite multiple instances of R0 and R1.',
+  'Partial Deadlock': '4 processes where only subset (P0, P1, P2) are deadlocked. P3 can finish independently.',
+  'Complex Safe State': '5 processes with 3 resource types. Complex allocation pattern but system remains safe.',
+  'Dining Philosophers (Deadlock)': '5 philosophers, each holding one fork and waiting for adjacent fork. Classic circular deadlock.',
+  'Large System (Safe)': '6 processes with 4 resource types (CPU/Memory/Disk/Network). Large-scale safe state scenario.',
+};
+
+/**
+ * All sample datasets - Organized from Easy to Complex (Duplicates Removed)
  */
 export const SAMPLES = {
   // ===== EASY: Basic Safe States =====
   'No Requests (Trivial Safe)': SAMPLE_NO_REQUESTS,
   'Simple Safe State': SAMPLE_SIMPLE_SAFE,
-  'Safe State': SAMPLE_SAFE_STATE,
   
   // ===== EASY-MEDIUM: Simple Deadlocks =====
   'Two Process Deadlock (Single-Instance)': SAMPLE_TWO_PROCESS_DEADLOCK,

@@ -273,7 +273,7 @@ function generateMatrixDescription() {
   return `The \\textbf{Matrix-Based Detection} algorithm uses the Allocation and Request matrices to determine if the system can satisfy all pending requests:
 
 \\begin{enumerate}
-  \\item Initialize a work vector $\\mathbf{W} = \\mathbf{V}$ (available resources)
+  \item Initialize an available vector $\mathbf{A} = \mathbf{V}$ (available resources)
   \\item Mark all processes as unfinished
   \\item Find an unfinished process $P_i$ such that $R_{ij} \\leq W_j$ for all $j$
   \\item If found, mark $P_i$ as finished and update $\\mathbf{W} = \\mathbf{W} + \\mathbf{A}_i$
